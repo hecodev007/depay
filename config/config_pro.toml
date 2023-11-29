@@ -16,7 +16,7 @@ chainid = 43114
 proofdir="D:/web3"
 
 [mysql]
-hostport = "localhost"
+hostport = "10.31.81.3"
 username = "root"
 password  = "ico1688.info"
 dbname = "depay"
