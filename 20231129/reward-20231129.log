@@ -1,0 +1,10 @@
+1129-112051.933 [payservice.go:30][ERROR] Key: 'PayOrderReq.MerchantAddress' Error:Field validation for 'MerchantAddress' failed on the 'required' tag
+Key: 'PayOrderReq.MerchantId' Error:Field validation for 'MerchantId' failed on the 'required' tag
+Key: 'PayOrderReq.UserAddress' Error:Field validation for 'UserAddress' failed on the 'required' tag
+1129-112608.170 [payservice.go:55][INFO] gen pay order err: Error 1054 (42S22): Unknown column 'payed_usdt' in 'field list'
+1129-113012.474 [payservice.go:55][INFO] gen pay order err: Error 1366 (HY000): Incorrect integer value: '' for column 'id' at row 1
+1129-113118.785 [payservice.go:55][INFO] gen pay order err: Error 1264 (22003): Out of range value for column 'order_id' at row 1
+1129-113526.650 [payservice.go:55][INFO] gen pay order err: Error 1292 (22007): Incorrect datetime value: '0000-00-00' for column 'update_time' at row 1
+1129-113741.785 [payservice.go:55][INFO] gen pay order err: Error 1292 (22007): Incorrect date value: '0000-00-00' for column 'update_time' at row 1
+1129-114934.109 [payservice.go:73][ERROR] Key: 'GetOrderReq.OrderId' Error:Field validation for 'OrderId' failed on the 'required' tag
+Key: 'GetOrderReq.Msg' Error:Field validation for 'Msg' failed on the 'required' tag

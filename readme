@@ -1,0 +1,1 @@
+ ./abigen.exe --abi="./contract/pay.abi" --type="pay" --pkg=contract --out="./contract/pay.go"

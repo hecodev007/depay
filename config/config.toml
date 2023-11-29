@@ -1,0 +1,23 @@
+# Runtime debug/release
+#
+# contact author:d
+# telegram:@SuperJ
+#
+
+#runtime = "debug"
+name = "reward"
+port = ":5009"
+
+[contract]
+airdrop = "0x5DCC00E3562d0678085528280027268082dEb8b8"
+aheusdt = "0xaed55b98f996083d6328c16f0381b18be8c936ad"
+chainhost="wss://ws-nd-371-554-258.p2pify.com/67873127b26f02bfaf2a036c6a02b9b5"
+chainid = 43114
+proofdir="D:/web3"
+[mysql]
+hostport = "localhost"
+username = "root"
+password  = "ico1688.info"
+dbname = "depay"
+maxConns = 100
+maxidle = 50
