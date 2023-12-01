@@ -1,6 +1,7 @@
 package main
 
 import (
+	"depay/middleware"
 	"depay/service"
 	"flag"
 	"fmt"
@@ -70,7 +71,7 @@ func main() {
 		Node: node,
 	}
 	r := gin.Default()
-
+	r.Use(middleware.Cors())
 	r.POST("/genPayOrder", s.GenPayOrder)
 	r.GET("/getPayOrder", s.GetPayOrder)
 	r.GET("/getOrderStatus", s.GetOrderStatus)
