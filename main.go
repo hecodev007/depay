@@ -130,7 +130,7 @@ func Router() *gin.Engine {
 	r := gin.Default()
 	//r.GET("/testApi", s.TestApi)
 	r.GET("/testApi", s.TestApi)
-
+	//r.Any("/testApi", s.TestApi)
 	r.POST("/genPayOrder", s.GenPayOrder)
 	r.GET("/getPayOrder", s.GetPayOrder)
 	r.GET("/getOrderStatus", s.GetOrderStatus)
