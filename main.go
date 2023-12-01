@@ -127,7 +127,7 @@ func Router() *gin.Engine {
 		Node: node,
 	}
 	r := gin.Default()
-
+	r.GET("/testApi", s.TestApi)
 	r.POST("/genPayOrder", s.GenPayOrder)
 	r.GET("/getPayOrder", s.GetPayOrder)
 	r.GET("/getOrderStatus", s.GetOrderStatus)

@@ -60,6 +60,10 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": "sucess", "code": 0, "order_id": order.OrderId})
 	return
 }
+func (s *Service) TestApi(c *gin.Context) {
+
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+}
 
 // getPayOrder?order_id=100012&msg=address
 type GetOrderReq struct {

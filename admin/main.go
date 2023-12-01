@@ -65,7 +65,7 @@ func main() {
 		Node: node,
 	}
 	r := gin.Default()
-	auth.NoCheckUrl = append(auth.NoCheckUrl, "/login")
+	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
 	auth.NoCheckUrl = append(auth.NoCheckUrl, "/")
 	//	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
 	r.Use(auth.JWTAuth())
