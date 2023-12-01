@@ -76,8 +76,8 @@ func main() {
 	r.GET("/getPayOrder", s.GetPayOrder)
 	r.GET("/getOrderStatus", s.GetOrderStatus)
 	r.POST("/cancelPayOrder", s.CancelPayOrder)
-	//	r.POST("/addMerchant", s.AddMerchant)
 	r.GET("/testApi", s.TestApi)
+	//r.OPTIONS("/testApi", s.TestApi)
 	fmt.Println("start serve。。。")
 
 	r.Run(conf.Port)
