@@ -35,9 +35,9 @@ func (s *Service) AddMerchant(c *gin.Context) {
 }
 
 type AddAdminReq struct {
-	UserName string `json:"user_name" binding:"required"`
-	Pwd      string `json:"pwd" binding:"required"`
-	Level    int    `json:"level"`
+	Email string `json:"email" binding:"required"`
+	Pwd   string `json:"pwd" binding:"required"`
+	Level int    `json:"level"`
 }
 
 func (s *Service) RegUser(c *gin.Context) {
@@ -60,7 +60,7 @@ func (s *Service) RegUser(c *gin.Context) {
 		return
 	}
 	admin := &model.Admin{
-		UserName: req.UserName,
+		UserName: req.Email,
 		Pwd:      req.Pwd,
 		Level:    req.Level,
 	}
