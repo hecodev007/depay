@@ -25,6 +25,12 @@ type Msg struct {
 	Vale  int
 }
 
+func TestSign1(*testing.T) {
+	sig, _ := hexutil.Decode("0x6274e7a92311176180ced575be04b1c60bc239ed6fe9a212f5e8548e7207a7222d9aa4e3300874c56ac368ac940c0cba62c8d66250a0cdab8e700ac702ad98a61b")
+	b := ValidSignerV1(sig, "0x3581930D218107F5C28D68A160F79C8a94225DDc", common.HexToAddress("0x3581930D218107F5C28D68A160F79C8a94225DDc"))
+	fmt.Println(b)
+}
+
 func TestSign(*testing.T) {
 	//	fmt.Println(common.IsHexAddress("0xe8e3a028903e5435bb2cd7da30119d37eef66999"))
 

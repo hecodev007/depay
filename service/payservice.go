@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/bwmarrin/snowflake"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/gin-gonic/gin"
 	"github.com/shopspring/decimal"
 	log "github.com/sirupsen/logrus"
@@ -96,7 +97,8 @@ func (s *Service) GetPayOrder(c *gin.Context) {
 		return
 	}
 	signature := c.GetHeader("signature")
-	b := com.ValidSigner([]byte(signature), req.Msg, common.HexToAddress(req.Msg))
+	sig, _ := hexutil.Decode(signature)
+	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
 	if !b {
 		log.Println("valid signature:", req.OrderId, req.Msg)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
@@ -129,7 +131,8 @@ func (s *Service) GetOrderStatus(c *gin.Context) {
 		return
 	}
 	signature := c.GetHeader("signature")
-	b := com.ValidSigner([]byte(signature), req.Msg, common.HexToAddress(req.Msg))
+	sig, _ := hexutil.Decode(signature)
+	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
 	if !b {
 		log.Println("valid signature:", req.OrderId, req.Msg)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
@@ -163,7 +166,8 @@ func (s *Service) CancelPayOrder(c *gin.Context) {
 		return
 	}
 	signature := c.GetHeader("signature")
-	b := com.ValidSigner([]byte(signature), req.Msg, common.HexToAddress(req.Msg))
+	sig, _ := hexutil.Decode(signature)
+	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
 	if !b {
 		log.Println("valid signature:", req.OrderId, req.Msg)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
