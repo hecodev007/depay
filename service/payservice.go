@@ -42,8 +42,10 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		return
 	}
 	id := s.Node.Generate().Int64()
+	strId := fmt.Sprintf("%v", id)
+	dec, _ := decimal.NewFromString(strId[:len(strId)-2])
 	order := &model.PayOrder{
-		OrderId:         id,
+		OrderId:         dec.IntPart(),
 		UserId:          req.UserId,
 		UserAddress:     req.UserAddress,
 		MerchantAddress: req.MerchantAddress,
@@ -59,7 +61,7 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		return
 	}
 	fmt.Println("gen order rsp:", order.OrderId)
-	c.JSON(http.StatusOK, gin.H{"msg": "sucess", "code": 0, "order_id": order.OrderId})
+	c.JSON(http.StatusOK, gin.H{"msg": "success", "code": 0, "order_id": order.OrderId})
 	return
 }
 func (s *Service) TestApi(c *gin.Context) {

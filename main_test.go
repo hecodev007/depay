@@ -17,6 +17,7 @@ func PostForm(uri, method, token string, param map[string]interface{}, router *g
 	w := httptest.NewRecorder()
 	// 调用相应handler接口
 	router.ServeHTTP(w, req)
+
 	return w
 }
 func ParseToStr(mp map[string]interface{}) string {
