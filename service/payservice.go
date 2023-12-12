@@ -43,7 +43,8 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 	}
 	id := s.Node.Generate().Int64()
 	strId := fmt.Sprintf("%v", id)
-	dec, _ := decimal.NewFromString(strId[:len(strId)-2])
+	strId = strId[2:]
+	dec, _ := decimal.NewFromString(strId)
 	order := &model.PayOrder{
 		OrderId:         dec.IntPart(),
 		UserId:          req.UserId,
