@@ -3,6 +3,7 @@ package service
 import (
 	"depay/com"
 	"depay/model"
+	"fmt"
 	"github.com/bwmarrin/snowflake"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gin-gonic/gin"
@@ -57,6 +58,7 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"msg": "db err", "code": 1})
 		return
 	}
+	fmt.Println("gen order rsp:", order.OrderId)
 	c.JSON(http.StatusOK, gin.H{"msg": "sucess", "code": 0, "order_id": order.OrderId})
 	return
 }
