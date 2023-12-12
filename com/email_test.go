@@ -3,6 +3,7 @@ package com
 import (
 	"github.com/bwmarrin/snowflake"
 	"github.com/golang/glog"
+	"github.com/shopspring/decimal"
 	"github.com/wumansgy/goEncrypt/rsa"
 	"time"
 
@@ -191,7 +192,13 @@ func TestBwmarrinSnowflakeLoad(t *testing.T) {
 			//if err != nil {
 			//	fmt.Println(err)
 			//}
-			val := node.Generate()
+			val := node.Generate().Int64()
+
+			strId := fmt.Sprintf("%v", val)
+
+			strId = strId[len(strId)-15:]
+			dec, _ := decimal.NewFromString(strId)
+			val = dec.IntPart()
 			if _, ok := check.Load(val); ok {
 				// id冲突检查
 				log.Println(fmt.Errorf("error#unique: val:%v", val))
@@ -212,6 +219,7 @@ func TestBwmarrinSnowflakeLoad(t *testing.T) {
 
 func TestSnowflakeLoad(t *testing.T) {
 	var wg sync.WaitGroup
+	//node, err := snowflake.NewNode(1)
 	s, err := sn.NewSnowflake(int64(0), int64(0))
 	if err != nil {
 		glog.Error(err)
