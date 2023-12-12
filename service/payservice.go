@@ -97,6 +97,7 @@ func (s *Service) GetPayOrder(c *gin.Context) {
 		return
 	}
 	signature := c.GetHeader("signature")
+	fmt.Println("sig:", signature)
 	sig, _ := hexutil.Decode(signature)
 	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
 	if !b {
