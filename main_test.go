@@ -68,7 +68,7 @@ func TestGetPayOrder(t *testing.T) {
 	//test post
 
 	param := make(map[string]interface{})
-	param["order_id"] = 1729706972187463680
+	param["order_id"] = 1734452722045816832
 	param["msg"] = "0x96216849c49358B10257cb55b28eA603c874b05E"
 	token := com.Signature("0x96216849c49358B10257cb55b28eA603c874b05E")
 	urlLogin := "/getPayOrder"

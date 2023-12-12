@@ -40,9 +40,9 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"msg": "signature is error", "code": 1})
 		return
 	}
-
+	id := s.Node.Generate().Int64()
 	order := &model.PayOrder{
-		OrderId:         s.Node.Generate().Int64(),
+		OrderId:         id,
 		UserId:          req.UserId,
 		UserAddress:     req.UserAddress,
 		MerchantAddress: req.MerchantAddress,
