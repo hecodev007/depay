@@ -70,7 +70,7 @@ func main() {
 	s := service.Service{
 		Node: node,
 	}
-	r := gin.New()
+	r := gin.Default()
 	r.Use(middleware.Cors())
 	r.POST("/genPayOrder", s.GenPayOrder)
 	r.GET("/getPayOrder", s.GetPayOrder)

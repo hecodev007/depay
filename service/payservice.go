@@ -98,8 +98,10 @@ func (s *Service) GetPayOrder(c *gin.Context) {
 	}
 	signature := c.GetHeader("signature")
 	fmt.Println("sig:", signature)
+	fmt.Println("msg:", req.Msg)
 	sig, _ := hexutil.Decode(signature)
-	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
+	b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
+
 	if !b {
 		log.Println("valid signature:", req.OrderId, req.Msg)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
@@ -133,7 +135,7 @@ func (s *Service) GetOrderStatus(c *gin.Context) {
 	}
 	signature := c.GetHeader("signature")
 	sig, _ := hexutil.Decode(signature)
-	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
+	b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
 	if !b {
 		log.Println("valid signature:", req.OrderId, req.Msg)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
@@ -168,7 +170,7 @@ func (s *Service) CancelPayOrder(c *gin.Context) {
 	}
 	signature := c.GetHeader("signature")
 	sig, _ := hexutil.Decode(signature)
-	b := com.ValidSigner(sig, req.Msg, common.HexToAddress(req.Msg))
+	b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
 	if !b {
 		log.Println("valid signature:", req.OrderId, req.Msg)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
