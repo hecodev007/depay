@@ -80,7 +80,7 @@ func (s *Service) GetPayOrder(c *gin.Context) {
 	}
 	order := &model.PayOrder{}
 	if err := model.DB.Where("order_id=?", req.OrderId).First(order).Error; err != nil {
-		log.Println("query db error:", req.OrderId)
+		log.Println("query db error:", req.OrderId, err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db error"})
 		return
 	}

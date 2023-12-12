@@ -37,7 +37,7 @@ func (s *Service) AddMerchant(c *gin.Context) {
 type AddAdminReq struct {
 	Email string `json:"email" binding:"required"`
 	Pwd   string `json:"pwd" binding:"required"`
-	Level int    `json:"level"`
+	Code  int    `json:"code"`
 }
 
 func (s *Service) RegUser(c *gin.Context) {
@@ -62,7 +62,7 @@ func (s *Service) RegUser(c *gin.Context) {
 	admin := &model.Admin{
 		UserName: req.Email,
 		Pwd:      req.Pwd,
-		Level:    req.Level,
+		Level:    req.Code,
 	}
 	if err := model.DB.Create(admin).Error; err != nil {
 		log.Println("add user err:", err)
