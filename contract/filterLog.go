@@ -60,8 +60,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 		contractAddress := common.HexToAddress(addr)
 		addresses = append(addresses, contractAddress)
 	}
-
-	PayOrderEventSignature := []byte("PayOrderEvent(uint256,address,address,uint256,uint256,uint256,uint256)")
+	PayOrderEventSignature := []byte("PayOrderEvent(uint256,address,address,address,uint256,uint256,uint256,uint256)")
 	payOrderEvent := crypto.Keccak256Hash(PayOrderEventSignature)
 
 	SubScribeEventSignature := []byte("SubScribe(address,address)")
@@ -150,16 +149,16 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 			}
 
 		}
-		blHeight := &model.BlockHeight{
-			Height: int64(height),
-		}
-		if err := tx.Create(blHeight); err != nil {
-			log.Error(err)
-			tx.Rollback()
 
-		}
-		tx.Commit()
 		//fmt.Println(topics[0]) //7
 	}
+	blHeight := &model.BlockHeight{
+		Height: int64(height),
+	}
+	if err := tx.Save(blHeight); err != nil {
+		log.Error(err)
+		tx.Rollback()
 
+	}
+	tx.Commit()
 }

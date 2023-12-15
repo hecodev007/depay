@@ -27,7 +27,7 @@ var (
 )
 
 // PayABI is the input ABI used to generate the binding from.
-const PayABI = "[{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"address\",\"name\":\"_usdt\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_weth\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_factory\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_feeWallet\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"}],\"name\":\"CancelSubScribe\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_usdt\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"MerchantWithdrawEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"orderId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"payToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"tokenAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"payAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"swapAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"PayOrderEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"}],\"name\":\"SubScribe\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"SubScribePay\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"FACTORY\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"WETH\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_point\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_denominator\",\"type\":\"uint256\"}],\"name\":\"addMerchant\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_id\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_point\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_denominator\",\"type\":\"uint256\"}],\"name\":\"addMerchantBase\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adminer\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"}],\"name\":\"cancelSubScribe\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getMerchantBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getMerchantInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"usdtAmount\",\"type\":\"uint256\"}],\"name\":\"getTokenAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"merchantInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"merchantId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"feePoint\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"feeDenominator\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"merchantWithdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"usdtAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_orderid\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_merchantId\",\"type\":\"uint256\"}],\"name\":\"payOrder\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_admin\",\"type\":\"address\"}],\"name\":\"setAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_point\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_denominator\",\"type\":\"uint256\"}],\"name\":\"setMerchant\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_tokenERC20\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"power\",\"type\":\"bool\"}],\"name\":\"setToken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"subScribe\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"usdtAmount\",\"type\":\"uint256\"}],\"name\":\"subScribePay\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"}],\"name\":\"subScribes\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"tokenERC20\",\"outputs\":[{\"internalType\":\"contractIERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"usdtToken\",\"outputs\":[{\"internalType\":\"contractIERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}]"
+const PayABI = "[{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"tokens\",\"type\":\"address[]\"},{\"internalType\":\"address\",\"name\":\"_usdt\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_weth\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_factory\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_feeWallet\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"product\",\"type\":\"uint256\"}],\"name\":\"CancelSubScribe\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_usdt\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"MerchantWithdrawEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"orderId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"payToken\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"tokenAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"payAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"swapAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"PayOrderEvent\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"product\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_period\",\"type\":\"uint256\"}],\"name\":\"SubScribe\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"merchant\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"name\":\"SubScribePay\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"FACTORY\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"WETH\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_id\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_point\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_denominator\",\"type\":\"uint256\"}],\"name\":\"addMerchant\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_id\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_point\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_denominator\",\"type\":\"uint256\"}],\"name\":\"addMerchantBase\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"adminer\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_product\",\"type\":\"uint256\"}],\"name\":\"cancelSubScribe\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getMerchantBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getMerchantInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"usdtAmount\",\"type\":\"uint256\"}],\"name\":\"getTokenAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"merchantInfo\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"merchantId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"feePoint\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"feeDenominator\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"merchantWithdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"usdtAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_orderid\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_merchantId\",\"type\":\"uint256\"}],\"name\":\"payOrder\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_admin\",\"type\":\"address\"}],\"name\":\"setAdmin\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_point\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_denominator\",\"type\":\"uint256\"}],\"name\":\"setMerchant\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_tokenERC20\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"power\",\"type\":\"bool\"}],\"name\":\"setToken\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"subScribe\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"usdtAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_product\",\"type\":\"uint256\"}],\"name\":\"subScribePay\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_merchant\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_product\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_period\",\"type\":\"uint256\"}],\"name\":\"subScribes\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"tokenERC20\",\"outputs\":[{\"internalType\":\"contractIERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"usdtToken\",\"outputs\":[{\"internalType\":\"contractIERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}]"
 
 // Pay is an auto generated Go binding around an Ethereum contract.
 type Pay struct {
@@ -442,35 +442,35 @@ func (_Pay *PayCallerSession) Owner() (common.Address, error) {
 	return _Pay.Contract.Owner(&_Pay.CallOpts)
 }
 
-// SubScribe is a free data retrieval call binding the contract method 0x581afcfb.
+// SubScribe is a free data retrieval call binding the contract method 0xde0ca2ac.
 //
-// Solidity: function subScribe(address , address ) view returns(bool)
-func (_Pay *PayCaller) SubScribe(opts *bind.CallOpts, arg0 common.Address, arg1 common.Address) (bool, error) {
+// Solidity: function subScribe(address , address , uint256 ) view returns(uint256)
+func (_Pay *PayCaller) SubScribe(opts *bind.CallOpts, arg0 common.Address, arg1 common.Address, arg2 *big.Int) (*big.Int, error) {
 	var out []interface{}
-	err := _Pay.contract.Call(opts, &out, "subScribe", arg0, arg1)
+	err := _Pay.contract.Call(opts, &out, "subScribe", arg0, arg1, arg2)
 
 	if err != nil {
-		return *new(bool), err
+		return *new(*big.Int), err
 	}
 
-	out0 := *abi.ConvertType(out[0], new(bool)).(*bool)
+	out0 := *abi.ConvertType(out[0], new(*big.Int)).(**big.Int)
 
 	return out0, err
 
 }
 
-// SubScribe is a free data retrieval call binding the contract method 0x581afcfb.
+// SubScribe is a free data retrieval call binding the contract method 0xde0ca2ac.
 //
-// Solidity: function subScribe(address , address ) view returns(bool)
-func (_Pay *PaySession) SubScribe(arg0 common.Address, arg1 common.Address) (bool, error) {
-	return _Pay.Contract.SubScribe(&_Pay.CallOpts, arg0, arg1)
+// Solidity: function subScribe(address , address , uint256 ) view returns(uint256)
+func (_Pay *PaySession) SubScribe(arg0 common.Address, arg1 common.Address, arg2 *big.Int) (*big.Int, error) {
+	return _Pay.Contract.SubScribe(&_Pay.CallOpts, arg0, arg1, arg2)
 }
 
-// SubScribe is a free data retrieval call binding the contract method 0x581afcfb.
+// SubScribe is a free data retrieval call binding the contract method 0xde0ca2ac.
 //
-// Solidity: function subScribe(address , address ) view returns(bool)
-func (_Pay *PayCallerSession) SubScribe(arg0 common.Address, arg1 common.Address) (bool, error) {
-	return _Pay.Contract.SubScribe(&_Pay.CallOpts, arg0, arg1)
+// Solidity: function subScribe(address , address , uint256 ) view returns(uint256)
+func (_Pay *PayCallerSession) SubScribe(arg0 common.Address, arg1 common.Address, arg2 *big.Int) (*big.Int, error) {
+	return _Pay.Contract.SubScribe(&_Pay.CallOpts, arg0, arg1, arg2)
 }
 
 // TokenERC20 is a free data retrieval call binding the contract method 0x9d143e8e.
@@ -577,25 +577,25 @@ func (_Pay *PayTransactorSession) AddMerchantBase(_merchant common.Address, _id 
 	return _Pay.Contract.AddMerchantBase(&_Pay.TransactOpts, _merchant, _id, _token, _point, _denominator)
 }
 
-// CancelSubScribe is a paid mutator transaction binding the contract method 0xac75be36.
+// CancelSubScribe is a paid mutator transaction binding the contract method 0x070e5f84.
 //
-// Solidity: function cancelSubScribe(address _merchant) returns()
-func (_Pay *PayTransactor) CancelSubScribe(opts *bind.TransactOpts, _merchant common.Address) (*types.Transaction, error) {
-	return _Pay.contract.Transact(opts, "cancelSubScribe", _merchant)
+// Solidity: function cancelSubScribe(address _merchant, uint256 _product) returns()
+func (_Pay *PayTransactor) CancelSubScribe(opts *bind.TransactOpts, _merchant common.Address, _product *big.Int) (*types.Transaction, error) {
+	return _Pay.contract.Transact(opts, "cancelSubScribe", _merchant, _product)
 }
 
-// CancelSubScribe is a paid mutator transaction binding the contract method 0xac75be36.
+// CancelSubScribe is a paid mutator transaction binding the contract method 0x070e5f84.
 //
-// Solidity: function cancelSubScribe(address _merchant) returns()
-func (_Pay *PaySession) CancelSubScribe(_merchant common.Address) (*types.Transaction, error) {
-	return _Pay.Contract.CancelSubScribe(&_Pay.TransactOpts, _merchant)
+// Solidity: function cancelSubScribe(address _merchant, uint256 _product) returns()
+func (_Pay *PaySession) CancelSubScribe(_merchant common.Address, _product *big.Int) (*types.Transaction, error) {
+	return _Pay.Contract.CancelSubScribe(&_Pay.TransactOpts, _merchant, _product)
 }
 
-// CancelSubScribe is a paid mutator transaction binding the contract method 0xac75be36.
+// CancelSubScribe is a paid mutator transaction binding the contract method 0x070e5f84.
 //
-// Solidity: function cancelSubScribe(address _merchant) returns()
-func (_Pay *PayTransactorSession) CancelSubScribe(_merchant common.Address) (*types.Transaction, error) {
-	return _Pay.Contract.CancelSubScribe(&_Pay.TransactOpts, _merchant)
+// Solidity: function cancelSubScribe(address _merchant, uint256 _product) returns()
+func (_Pay *PayTransactorSession) CancelSubScribe(_merchant common.Address, _product *big.Int) (*types.Transaction, error) {
+	return _Pay.Contract.CancelSubScribe(&_Pay.TransactOpts, _merchant, _product)
 }
 
 // MerchantWithdraw is a paid mutator transaction binding the contract method 0xb42a1c70.
@@ -724,46 +724,46 @@ func (_Pay *PayTransactorSession) SetToken(_tokenERC20 common.Address, power boo
 	return _Pay.Contract.SetToken(&_Pay.TransactOpts, _tokenERC20, power)
 }
 
-// SubScribePay is a paid mutator transaction binding the contract method 0x258926ec.
+// SubScribePay is a paid mutator transaction binding the contract method 0xe5d0bef1.
 //
-// Solidity: function subScribePay(address _merchant, address _user, address _token, uint256 usdtAmount) returns()
-func (_Pay *PayTransactor) SubScribePay(opts *bind.TransactOpts, _merchant common.Address, _user common.Address, _token common.Address, usdtAmount *big.Int) (*types.Transaction, error) {
-	return _Pay.contract.Transact(opts, "subScribePay", _merchant, _user, _token, usdtAmount)
+// Solidity: function subScribePay(address _merchant, address _user, address _token, uint256 usdtAmount, uint256 _product) returns()
+func (_Pay *PayTransactor) SubScribePay(opts *bind.TransactOpts, _merchant common.Address, _user common.Address, _token common.Address, usdtAmount *big.Int, _product *big.Int) (*types.Transaction, error) {
+	return _Pay.contract.Transact(opts, "subScribePay", _merchant, _user, _token, usdtAmount, _product)
 }
 
-// SubScribePay is a paid mutator transaction binding the contract method 0x258926ec.
+// SubScribePay is a paid mutator transaction binding the contract method 0xe5d0bef1.
 //
-// Solidity: function subScribePay(address _merchant, address _user, address _token, uint256 usdtAmount) returns()
-func (_Pay *PaySession) SubScribePay(_merchant common.Address, _user common.Address, _token common.Address, usdtAmount *big.Int) (*types.Transaction, error) {
-	return _Pay.Contract.SubScribePay(&_Pay.TransactOpts, _merchant, _user, _token, usdtAmount)
+// Solidity: function subScribePay(address _merchant, address _user, address _token, uint256 usdtAmount, uint256 _product) returns()
+func (_Pay *PaySession) SubScribePay(_merchant common.Address, _user common.Address, _token common.Address, usdtAmount *big.Int, _product *big.Int) (*types.Transaction, error) {
+	return _Pay.Contract.SubScribePay(&_Pay.TransactOpts, _merchant, _user, _token, usdtAmount, _product)
 }
 
-// SubScribePay is a paid mutator transaction binding the contract method 0x258926ec.
+// SubScribePay is a paid mutator transaction binding the contract method 0xe5d0bef1.
 //
-// Solidity: function subScribePay(address _merchant, address _user, address _token, uint256 usdtAmount) returns()
-func (_Pay *PayTransactorSession) SubScribePay(_merchant common.Address, _user common.Address, _token common.Address, usdtAmount *big.Int) (*types.Transaction, error) {
-	return _Pay.Contract.SubScribePay(&_Pay.TransactOpts, _merchant, _user, _token, usdtAmount)
+// Solidity: function subScribePay(address _merchant, address _user, address _token, uint256 usdtAmount, uint256 _product) returns()
+func (_Pay *PayTransactorSession) SubScribePay(_merchant common.Address, _user common.Address, _token common.Address, usdtAmount *big.Int, _product *big.Int) (*types.Transaction, error) {
+	return _Pay.Contract.SubScribePay(&_Pay.TransactOpts, _merchant, _user, _token, usdtAmount, _product)
 }
 
-// SubScribes is a paid mutator transaction binding the contract method 0x1d45c9f0.
+// SubScribes is a paid mutator transaction binding the contract method 0x0adb6dac.
 //
-// Solidity: function subScribes(address _merchant) returns()
-func (_Pay *PayTransactor) SubScribes(opts *bind.TransactOpts, _merchant common.Address) (*types.Transaction, error) {
-	return _Pay.contract.Transact(opts, "subScribes", _merchant)
+// Solidity: function subScribes(address _merchant, uint256 _product, uint256 _period) returns()
+func (_Pay *PayTransactor) SubScribes(opts *bind.TransactOpts, _merchant common.Address, _product *big.Int, _period *big.Int) (*types.Transaction, error) {
+	return _Pay.contract.Transact(opts, "subScribes", _merchant, _product, _period)
 }
 
-// SubScribes is a paid mutator transaction binding the contract method 0x1d45c9f0.
+// SubScribes is a paid mutator transaction binding the contract method 0x0adb6dac.
 //
-// Solidity: function subScribes(address _merchant) returns()
-func (_Pay *PaySession) SubScribes(_merchant common.Address) (*types.Transaction, error) {
-	return _Pay.Contract.SubScribes(&_Pay.TransactOpts, _merchant)
+// Solidity: function subScribes(address _merchant, uint256 _product, uint256 _period) returns()
+func (_Pay *PaySession) SubScribes(_merchant common.Address, _product *big.Int, _period *big.Int) (*types.Transaction, error) {
+	return _Pay.Contract.SubScribes(&_Pay.TransactOpts, _merchant, _product, _period)
 }
 
-// SubScribes is a paid mutator transaction binding the contract method 0x1d45c9f0.
+// SubScribes is a paid mutator transaction binding the contract method 0x0adb6dac.
 //
-// Solidity: function subScribes(address _merchant) returns()
-func (_Pay *PayTransactorSession) SubScribes(_merchant common.Address) (*types.Transaction, error) {
-	return _Pay.Contract.SubScribes(&_Pay.TransactOpts, _merchant)
+// Solidity: function subScribes(address _merchant, uint256 _product, uint256 _period) returns()
+func (_Pay *PayTransactorSession) SubScribes(_merchant common.Address, _product *big.Int, _period *big.Int) (*types.Transaction, error) {
+	return _Pay.Contract.SubScribes(&_Pay.TransactOpts, _merchant, _product, _period)
 }
 
 // TransferOwnership is a paid mutator transaction binding the contract method 0xf2fde38b.
@@ -879,12 +879,13 @@ func (it *PayCancelSubScribeIterator) Close() error {
 type PayCancelSubScribe struct {
 	User     common.Address
 	Merchant common.Address
+	Product  *big.Int
 	Raw      types.Log // Blockchain specific contextual infos
 }
 
-// FilterCancelSubScribe is a free log retrieval operation binding the contract event 0x6ee9d6098324511951d7ea1b5be43a2e9649402be94c73a6511346d53459bc55.
+// FilterCancelSubScribe is a free log retrieval operation binding the contract event 0x56adf33f94be28a032c02bd196e107cc9f407ef76c6749e9da1eabae8646ac25.
 //
-// Solidity: event CancelSubScribe(address user, address merchant)
+// Solidity: event CancelSubScribe(address user, address merchant, uint256 product)
 func (_Pay *PayFilterer) FilterCancelSubScribe(opts *bind.FilterOpts) (*PayCancelSubScribeIterator, error) {
 
 	logs, sub, err := _Pay.contract.FilterLogs(opts, "CancelSubScribe")
@@ -894,9 +895,9 @@ func (_Pay *PayFilterer) FilterCancelSubScribe(opts *bind.FilterOpts) (*PayCance
 	return &PayCancelSubScribeIterator{contract: _Pay.contract, event: "CancelSubScribe", logs: logs, sub: sub}, nil
 }
 
-// WatchCancelSubScribe is a free log subscription operation binding the contract event 0x6ee9d6098324511951d7ea1b5be43a2e9649402be94c73a6511346d53459bc55.
+// WatchCancelSubScribe is a free log subscription operation binding the contract event 0x56adf33f94be28a032c02bd196e107cc9f407ef76c6749e9da1eabae8646ac25.
 //
-// Solidity: event CancelSubScribe(address user, address merchant)
+// Solidity: event CancelSubScribe(address user, address merchant, uint256 product)
 func (_Pay *PayFilterer) WatchCancelSubScribe(opts *bind.WatchOpts, sink chan<- *PayCancelSubScribe) (event.Subscription, error) {
 
 	logs, sub, err := _Pay.contract.WatchLogs(opts, "CancelSubScribe")
@@ -931,9 +932,9 @@ func (_Pay *PayFilterer) WatchCancelSubScribe(opts *bind.WatchOpts, sink chan<- 
 	}), nil
 }
 
-// ParseCancelSubScribe is a log parse operation binding the contract event 0x6ee9d6098324511951d7ea1b5be43a2e9649402be94c73a6511346d53459bc55.
+// ParseCancelSubScribe is a log parse operation binding the contract event 0x56adf33f94be28a032c02bd196e107cc9f407ef76c6749e9da1eabae8646ac25.
 //
-// Solidity: event CancelSubScribe(address user, address merchant)
+// Solidity: event CancelSubScribe(address user, address merchant, uint256 product)
 func (_Pay *PayFilterer) ParseCancelSubScribe(log types.Log) (*PayCancelSubScribe, error) {
 	event := new(PayCancelSubScribe)
 	if err := _Pay.contract.UnpackLog(event, "CancelSubScribe", log); err != nil {
@@ -1444,12 +1445,14 @@ func (it *PaySubScribeIterator) Close() error {
 type PaySubScribe struct {
 	User     common.Address
 	Merchant common.Address
+	Product  *big.Int
+	Period   *big.Int
 	Raw      types.Log // Blockchain specific contextual infos
 }
 
-// FilterSubScribe is a free log retrieval operation binding the contract event 0xa786df089fefd4e0160a8eec4f002e678732a478779e87c79b8ec139853c71e9.
+// FilterSubScribe is a free log retrieval operation binding the contract event 0x54803366f6f5e96c62465b8e1e0b1dfdfe995c762a6658e0a3718cbc908f378f.
 //
-// Solidity: event SubScribe(address user, address merchant)
+// Solidity: event SubScribe(address user, address merchant, uint256 product, uint256 _period)
 func (_Pay *PayFilterer) FilterSubScribe(opts *bind.FilterOpts) (*PaySubScribeIterator, error) {
 
 	logs, sub, err := _Pay.contract.FilterLogs(opts, "SubScribe")
@@ -1459,9 +1462,9 @@ func (_Pay *PayFilterer) FilterSubScribe(opts *bind.FilterOpts) (*PaySubScribeIt
 	return &PaySubScribeIterator{contract: _Pay.contract, event: "SubScribe", logs: logs, sub: sub}, nil
 }
 
-// WatchSubScribe is a free log subscription operation binding the contract event 0xa786df089fefd4e0160a8eec4f002e678732a478779e87c79b8ec139853c71e9.
+// WatchSubScribe is a free log subscription operation binding the contract event 0x54803366f6f5e96c62465b8e1e0b1dfdfe995c762a6658e0a3718cbc908f378f.
 //
-// Solidity: event SubScribe(address user, address merchant)
+// Solidity: event SubScribe(address user, address merchant, uint256 product, uint256 _period)
 func (_Pay *PayFilterer) WatchSubScribe(opts *bind.WatchOpts, sink chan<- *PaySubScribe) (event.Subscription, error) {
 
 	logs, sub, err := _Pay.contract.WatchLogs(opts, "SubScribe")
@@ -1496,9 +1499,9 @@ func (_Pay *PayFilterer) WatchSubScribe(opts *bind.WatchOpts, sink chan<- *PaySu
 	}), nil
 }
 
-// ParseSubScribe is a log parse operation binding the contract event 0xa786df089fefd4e0160a8eec4f002e678732a478779e87c79b8ec139853c71e9.
+// ParseSubScribe is a log parse operation binding the contract event 0x54803366f6f5e96c62465b8e1e0b1dfdfe995c762a6658e0a3718cbc908f378f.
 //
-// Solidity: event SubScribe(address user, address merchant)
+// Solidity: event SubScribe(address user, address merchant, uint256 product, uint256 _period)
 func (_Pay *PayFilterer) ParseSubScribe(log types.Log) (*PaySubScribe, error) {
 	event := new(PaySubScribe)
 	if err := _Pay.contract.UnpackLog(event, "SubScribe", log); err != nil {

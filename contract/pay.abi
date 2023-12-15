@@ -44,6 +44,12 @@
           "internalType": "address",
           "name": "merchant",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "product",
+          "type": "uint256"
         }
       ],
       "name": "CancelSubScribe",
@@ -162,6 +168,18 @@
           "internalType": "address",
           "name": "merchant",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "product",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_period",
+          "type": "uint256"
         }
       ],
       "name": "SubScribe",
@@ -310,6 +328,11 @@
           "internalType": "address",
           "name": "_merchant",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_product",
+          "type": "uint256"
         }
       ],
       "name": "cancelSubScribe",
@@ -574,14 +597,19 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "name": "subScribe",
       "outputs": [
         {
-          "internalType": "bool",
+          "internalType": "uint256",
           "name": "",
-          "type": "bool"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -608,6 +636,11 @@
           "internalType": "uint256",
           "name": "usdtAmount",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_product",
+          "type": "uint256"
         }
       ],
       "name": "subScribePay",
@@ -621,6 +654,16 @@
           "internalType": "address",
           "name": "_merchant",
           "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_product",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_period",
+          "type": "uint256"
         }
       ],
       "name": "subScribes",
