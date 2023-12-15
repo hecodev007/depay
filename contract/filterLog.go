@@ -50,7 +50,7 @@ func toEthDbAmount(amount decimal.Decimal) decimal.Decimal {
 	return amount.Div(decimal.New(1, 18))
 }
 func toUsdtDbAmount(amount decimal.Decimal) decimal.Decimal {
-	return amount.Div(decimal.New(1, 6))
+	return amount.Div(decimal.New(1, 18))
 }
 
 func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
@@ -60,9 +60,10 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 		contractAddress := common.HexToAddress(addr)
 		addresses = append(addresses, contractAddress)
 	}
+
 	PayOrderEventSignature := []byte("PayOrderEvent(uint256,address,address,address,uint256,uint256,uint256,uint256)")
 	payOrderEvent := crypto.Keccak256Hash(PayOrderEventSignature)
-
+	fmt.Println("heigth:", height)
 	SubScribeEventSignature := []byte("SubScribe(address,address)")
 	subScribeEvent := crypto.Keccak256Hash(SubScribeEventSignature)
 
@@ -153,12 +154,17 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 		//fmt.Println(topics[0]) //7
 	}
 	blHeight := &model.BlockHeight{
+		Id:     1,
 		Height: int64(height),
 	}
-	if err := tx.Save(blHeight); err != nil {
-		log.Error(err)
+
+	if err := tx.Save(blHeight).Error; err != nil {
+		log.Error("update block height err:", err)
+		fmt.Println("update block height err:", err)
 		tx.Rollback()
 
 	}
-	tx.Commit()
+	if err := tx.Commit().Error; err != nil {
+		fmt.Println("commit err!", err)
+	}
 }
