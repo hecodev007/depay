@@ -105,7 +105,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 					log.Printf("find order err,id %v,err is %v", event.OrderId.Int64(), err)
 					continue
 				}
-				if order.MerchantAddress != event.Merchant.String() {
+				if common.HexToAddress(order.MerchantAddress) != event.Merchant {
 					continue
 				}
 				order.TokenAmount = toEthDbAmount(decimal.NewFromBigInt(event.TokenAmount, 0))
