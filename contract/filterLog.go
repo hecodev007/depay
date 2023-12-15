@@ -96,16 +96,18 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				event := PayPayOrderEvent{}
 				err := payAbi.UnpackIntoInterface(&event, "PayOrderEvent", vLog.Data)
 				if err != nil {
-					log.Println(err)
+					log.Println("UnpackIntoInterface PayOrderEvent", err)
 					return
 				}
 
 				order := &model.PayOrder{}
 				if err := model.DB.Where("order_id=?", event.OrderId.Int64()).First(order).Error; err != nil {
-					log.Printf("find order err,id %v,err is %v", event.OrderId.Int64(), err)
+					log.Printf("[PayOrderEvent] find order err,id %v,err is %v", event.OrderId.Int64(), err)
 					continue
 				}
+				log.Info("get payoder event")
 				if common.HexToAddress(order.MerchantAddress) != event.Merchant {
+					log.Info("[PayOrderEvent],merchant address not equal")
 					continue
 				}
 				order.TokenAmount = toEthDbAmount(decimal.NewFromBigInt(event.TokenAmount, 0))
@@ -122,7 +124,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				}
 
 				if err := tx.Where("id=?", order.Id).Save(order).Error; err != nil {
-					log.Println("修改支付订单错误：", order.OrderId)
+					log.Println("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
 					continue
 				}
 				//ChangeHeight = vLog.BlockNumber
