@@ -1,6 +1,7 @@
 package main
 
 import (
+	"depay/contract"
 	"depay/middleware"
 	"depay/service"
 	"flag"
@@ -79,7 +80,7 @@ func main() {
 	r.GET("/testApi", s.TestApi)
 	//r.OPTIONS("/testApi", s.TestApi)
 	fmt.Println("start serve。。。")
-
+	go contract.FilOne("https://data-seed-prebsc-2-s2.bnbchain.org:8545", []string{"0x1D9c4123Aad5d0b007483d1cAe75D0c699f0F308"})
 	r.Run(conf.Port)
 	// 捕捉退出信号
 	d := death.NewDeath(syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL,

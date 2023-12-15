@@ -24,6 +24,8 @@ type PayOrderReq struct {
 	UserAddress     string          `form:"user_address" json:"user_address" binding:"required"`
 	UserId          int64           `form:"user_id" json:"user_id"`
 	UsdtAmount      decimal.Decimal `form:"usdt_amount" json:"usdt_amount" binding:"required"`
+	CancelUrl       string          `form:"cancel_url" json:"cancel_url" binding:"required"`
+	SuccessUrl      string          `form:"success_url" json:"success_url" binding:"required"`
 }
 
 func (s *Service) GenPayOrder(c *gin.Context) {
@@ -55,6 +57,8 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		MerchantId:      req.MerchantId,
 		Status:          model.UNPAY,
 		UsdtAmount:      req.UsdtAmount,
+		CancelUrl:       req.CancelUrl,
+		SuccessUrl:      req.SuccessUrl,
 		CreateTime:      time.Now(),
 		UpdateTime:      time.Now(),
 	}
@@ -96,18 +100,18 @@ func (s *Service) GetPayOrder(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param error"})
 		return
 	}
-	signature := c.GetHeader("signature")
-	fmt.Println("sig:", signature)
-	fmt.Println("msg:", req.Msg)
-	sig, _ := hexutil.Decode(signature)
-	b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
-
-	if !b {
-		log.Println("valid signature:", req.OrderId, req.Msg)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "merchant_address": order.MerchantAddress, "merchant_id": order.MerchantId, "usdt_amount": order.UsdtAmount, "order_id": order.OrderId})
+	//signature := c.GetHeader("signature")
+	//fmt.Println("sig:", signature)
+	//fmt.Println("msg:", req.Msg)
+	//sig, _ := hexutil.Decode(signature)
+	//b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
+	//
+	//if !b {
+	//	log.Println("valid signature:", req.OrderId, req.Msg)
+	//	c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
+	//	return
+	//}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "merchant_address": order.MerchantAddress, "merchant_id": order.MerchantId, "usdt_amount": order.UsdtAmount, "order_id": order.OrderId, "cancel_url": order.CancelUrl, "success_url": order.SuccessUrl})
 }
 
 type GetOrderStatusReq struct {
@@ -133,15 +137,15 @@ func (s *Service) GetOrderStatus(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param error"})
 		return
 	}
-	signature := c.GetHeader("signature")
-	sig, _ := hexutil.Decode(signature)
-	b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
-	if !b {
-		log.Println("valid signature:", req.OrderId, req.Msg)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "status": order.Status, "order_id": order.OrderId})
+	//signature := c.GetHeader("signature")
+	//sig, _ := hexutil.Decode(signature)
+	//b := com.ValidSignerV1(sig, req.Msg, common.HexToAddress(req.Msg))
+	//if !b {
+	//	log.Println("valid signature:", req.OrderId, req.Msg)
+	//	c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
+	//	return
+	//}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "status": order.Status, "order_id": order.OrderId, "cancel_url": order.CancelUrl, "success_url": order.SuccessUrl})
 
 }
 
@@ -182,6 +186,6 @@ func (s *Service) CancelPayOrder(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "update status error"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "cancel_url": order.CancelUrl})
 
 }

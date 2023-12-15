@@ -19,6 +19,8 @@ type PayOrder struct {
 	MerchantId      int64           `json:"merchant_id"`
 	UserAddress     string          `json:"user_address"`
 	UserId          int64           `json:"user_id"`
+	SuccessUrl      string          `json:"success_url"`
+	CancelUrl       string          `json:"cancel_url"`
 	CreateTime      time.Time       `json:"create_time" gorm:"comment:创建时间"`
 	UpdateTime      time.Time       `json:"update_time" gorm:"comment:更新时间"`
 }
