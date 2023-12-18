@@ -88,7 +88,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 
 	tx := model.DB.Begin()
 	for _, vLog := range logs {
-		fmt.Println("height:", vLog.BlockNumber)
+		log.Info("height:", vLog.BlockNumber)
 
 		for _, topic := range vLog.Topics {
 
@@ -107,7 +107,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				}
 				log.Info("get payoder event")
 				if common.HexToAddress(order.MerchantAddress) != event.Merchant {
-					log.Info("[PayOrderEvent],merchant address not equal")
+					log.Error("[PayOrderEvent],merchant address not equal")
 					continue
 				}
 				order.TokenAmount = toEthDbAmount(decimal.NewFromBigInt(event.TokenAmount, 0))
@@ -124,7 +124,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				}
 
 				if err := tx.Where("id=?", order.Id).Save(order).Error; err != nil {
-					log.Println("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
+					log.Error("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
 					continue
 				}
 				//ChangeHeight = vLog.BlockNumber
@@ -142,7 +142,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 					CreateTime:      time.Now(),
 				}
 				if err := tx.Create(sub).Error; err != nil {
-					log.Println("add sub err:", event.Merchant, event.User)
+					log.Error("add sub err:", event.Merchant, event.User)
 					continue
 				}
 
