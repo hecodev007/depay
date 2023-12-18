@@ -57,6 +57,7 @@ func main() {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: gLog.Default.LogMode(gLog.Info),
 	})
+
 	if err != nil {
 		log.Error(err)
 		return
@@ -84,7 +85,7 @@ func main() {
 		for {
 			select {
 			case <-time.After(5 * time.Second):
-				contract.FilOne("https://data-seed-prebsc-2-s2.bnbchain.org:8545", []string{"0xBFE332fc74B5045fAb111e0dd590CD3132cA2cb5"})
+				contract.FilOne("https://data-seed-prebsc-2-s1.bnbchain.org:8545", []string{"0xBFE332fc74B5045fAb111e0dd590CD3132cA2cb5"})
 
 			}
 

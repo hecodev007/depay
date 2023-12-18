@@ -63,6 +63,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 
 	PayOrderEventSignature := []byte("PayOrderEvent(uint256,address,address,address,uint256,uint256,uint256,uint256)")
 	payOrderEvent := crypto.Keccak256Hash(PayOrderEventSignature)
+	//fmt.Println(payOrderEvent.Hex())
 	fmt.Println("heigth:", height)
 	SubScribeEventSignature := []byte("SubScribe(address,address)")
 	subScribeEvent := crypto.Keccak256Hash(SubScribeEventSignature)
@@ -88,10 +89,10 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 
 	tx := model.DB.Begin()
 	for _, vLog := range logs {
-		log.Info("height:", vLog.BlockNumber)
+		log.Info("topic height:", vLog.BlockNumber)
 
 		for _, topic := range vLog.Topics {
-
+			fmt.Println(topic)
 			if topic == payOrderEvent {
 				event := PayPayOrderEvent{}
 				err := payAbi.UnpackIntoInterface(&event, "PayOrderEvent", vLog.Data)
@@ -99,24 +100,28 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 					log.Println("UnpackIntoInterface PayOrderEvent", err)
 					return
 				}
+				fmt.Printf("%+v\n", event)
 
 				order := &model.PayOrder{}
 				if err := model.DB.Where("order_id=?", event.OrderId.Int64()).First(order).Error; err != nil {
 					log.Printf("[PayOrderEvent] find order err,id %v,err is %v", event.OrderId.Int64(), err)
 					continue
 				}
-				log.Info("get payoder event")
+				fmt.Println("get payoder event")
 				if common.HexToAddress(order.MerchantAddress) != event.Merchant {
 					log.Error("[PayOrderEvent],merchant address not equal")
+					fmt.Println("[PayOrderEvent],merchant address not equal")
 					continue
 				}
 				order.TokenAmount = toEthDbAmount(decimal.NewFromBigInt(event.TokenAmount, 0))
 				order.TokenAddress = event.PayToken.String()
 				order.UserAddress = event.User.String()
 				order.SwapAmount = toUsdtDbAmount(decimal.NewFromBigInt(event.SwapAmount, 0))
+				fmt.Println("pay amount:", event.PayAmount.Int64())
+				fmt.Println("SwapAmount amount:", event.SwapAmount.Int64())
 				order.PayedUsdt = toUsdtDbAmount(order.PayedUsdt.Add(decimal.NewFromBigInt(event.PayAmount, 0)))
 				order.UpdateTime = time.Now()
-				if order.PayedUsdt.Cmp(order.UsdtAmount) > 0 {
+				if order.PayedUsdt.GreaterThanOrEqual(order.UsdtAmount) && order.SwapAmount.GreaterThanOrEqual(order.PayedUsdt) {
 					order.Status = model.PAYED
 				}
 				if order.PayedUsdt.GreaterThan(decimal.Zero) && order.UsdtAmount.GreaterThan(order.PayedUsdt) {
@@ -125,6 +130,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 
 				if err := tx.Where("id=?", order.Id).Save(order).Error; err != nil {
 					log.Error("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
+					fmt.Println("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
 					continue
 				}
 				//ChangeHeight = vLog.BlockNumber
