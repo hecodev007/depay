@@ -74,6 +74,7 @@ func main() {
 	}
 	r := gin.Default()
 	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
+	auth.NoCheckUrl = append(auth.NoCheckUrl, "/getEmailCode")
 	auth.NoCheckUrl = append(auth.NoCheckUrl, "/")
 	r.Use(middleware.Cors())
 	//	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
