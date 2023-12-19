@@ -28,8 +28,8 @@ func GenerateToken(c *gin.Context, user model.Admin) {
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"status": -1,
-			"msg":    err.Error(),
+			"code": -1,
+			"msg":  err.Error(),
 		})
 		return
 	}
@@ -41,9 +41,9 @@ func GenerateToken(c *gin.Context, user model.Admin) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": 0,
-		"msg":    "登录成功！",
-		"data":   data,
+		"code": 0,
+		"msg":  "登录成功！",
+		"data": data,
 	})
 	return
 }
