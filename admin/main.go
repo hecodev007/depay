@@ -81,7 +81,7 @@ func main() {
 	r.Use(auth.JWTAuth())
 	router := r.Group("admin")
 	router.POST("/login", s.Login)
-	router.GET("/register", s.RegUser)
+	router.POST("/register", s.RegUser)
 	//router.POST("/setWalletAddress", s.SetWalletAddress)
 	router.POST("/setWebHook", s.SetWebHook)
 	router.POST("/setCoin", s.SetCoin)
