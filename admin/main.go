@@ -32,10 +32,17 @@ var conf = &config.Config{}
 // redis-cli -h abeatsdev.fss19b.ng.0001.use2.cache.amazonaws.com -p 6379
 func main() {
 	//pri := flag.String("p", "", "owner private")
+	env := flag.Int64("e", 0, "owner private")
 	flag.Parse()
 
 	loger.InitLog(".", "reward", "")
-	cfgPath := "../config/config.toml"
+	cfgPath := "./config/config.toml"
+	if *env == 1 {
+		cfgPath = "./config/config_pro.toml"
+	}
+
+	//loger.InitLog(".", "reward", "")
+	//cfgPath := "../config/config.toml"
 	if err := conf.Init(cfgPath); err != nil {
 		panic(err)
 	}
