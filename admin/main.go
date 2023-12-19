@@ -35,7 +35,7 @@ func main() {
 	flag.Parse()
 
 	loger.InitLog(".", "reward", "")
-	cfgPath := "./config/config.toml"
+	cfgPath := "../config/config.toml"
 	if err := conf.Init(cfgPath); err != nil {
 		panic(err)
 	}
@@ -80,11 +80,11 @@ func main() {
 	router.GET("/getCoinInfo", s.GetCoinInfo)
 	router.GET("/getPayOrder", s.GetPayOrders)
 	router.GET("/getRequestLog", s.GetRequestLog)
-	router.GET("/getCoinInfo", s.GetCoinInfo)
+	//router.GET("/getCoinInfo", s.GetCoinInfo)
 
 	fmt.Println("start serve。。。")
 
-	r.Run(conf.Port)
+	r.Run(conf.AdminPort)
 	// 捕捉退出信号
 	signalChan := make(chan os.Signal)
 	signal.Notify(signalChan, os.Interrupt)
