@@ -30,7 +30,8 @@ func (s *Service) GetEmailCode(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "send email err！"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+	code, _ := model.GoCache.Get(req.Email)
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "email_code": code})
 }
 
 type SetCoinReq struct {
