@@ -290,8 +290,8 @@ func (s *Service) RegUser(c *gin.Context) {
 }
 
 type AdminLogReq struct {
-	UserName int64  `json:"user_name" form:"user_name" binding:"required"`
-	Pwd      string `json:"pwd" form:"pwd" binding:"required"`
+	Email int64  `json:"email" form:"email" binding:"required"`
+	Pwd   string `json:"pwd" form:"pwd" binding:"required"`
 }
 
 func (s *Service) Login(c *gin.Context) {
@@ -302,8 +302,8 @@ func (s *Service) Login(c *gin.Context) {
 		return
 	}
 	admin := &model.Admin{}
-	if err := model.DB.Where("user_name").First(admin).Error; err != nil {
-		log.Error("admin select user err:", req.UserName)
+	if err := model.DB.Where("user_name=?", req.Email).First(admin).Error; err != nil {
+		log.Error("admin select user err:", req.Email)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
 	}

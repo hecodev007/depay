@@ -36,7 +36,7 @@ func main() {
 	env := flag.Int64("e", 0, "owner private")
 	flag.Parse()
 
-	loger.InitLog(".", "reward", "")
+	loger.InitLog(".", "admin", "")
 	cfgPath := "./config/config.toml"
 	if *env == 1 {
 		cfgPath = "./config/config_pro.toml"
