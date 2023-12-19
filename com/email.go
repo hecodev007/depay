@@ -69,7 +69,7 @@ func SendData(data, _to string) error {
 
 	body := Email{
 		Sender: Sender{
-			Name:  "Abeats Game",
+			Name:  "rns pay",
 			Email: "notification@email.abeats.com",
 		},
 		To: []To{{

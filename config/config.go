@@ -19,9 +19,10 @@ type Conf struct {
 
 type Config struct {
 	//Runtime string //release/debug
-	Name  string
-	Port  string
-	Mysql Conf
+	Name      string
+	Port      string
+	AdminPort string
+	Mysql     Conf
 }
 
 func New() *Config {

@@ -7,7 +7,7 @@
 #runtime = "debug"
 name = "reward"
 port = ":5009"
-
+adminport = ":5010"
 [contract]
 airdrop = "0x5DCC00E3562d0678085528280027268082dEb8b8"
 aheusdt = "0xaed55b98f996083d6328c16f0381b18be8c936ad"
