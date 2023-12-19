@@ -16,7 +16,7 @@ func GenerateToken(c *gin.Context, user model.Admin) {
 	claims := CustomClaims{
 		user.UserName,
 		user.Id,
-		user.Level,
+		user.MerchantId,
 		jwt.StandardClaims{
 			NotBefore: int64(time.Now().Unix() - 1000),  // 签名生效时间
 			ExpiresAt: int64(time.Now().Unix() + 36000), // 过期时间 一小时

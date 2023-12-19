@@ -82,9 +82,9 @@ func SendData(data, _to string) error {
 	body.HtmlContent = html
 	dt, _ := json.Marshal(body)
 	fmt.Println("send:", string(dt))
-	request, err := http.NewRequest("POST", "https://api.sendinblue.com/v3/smtp/email", bytes.NewBuffer(dt))
+	request, err := http.NewRequest("POST", "https://api.brevo.com/v3/smtp/email", bytes.NewBuffer(dt))
 	request.Header.Set("Content-Type", "application/json")
-	request.Header.Set("api-key", "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")
+	request.Header.Set("api-key", "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")
 	request.Header.Set("accept", "application/json")
 	//异常捕捉
 	if err != nil {

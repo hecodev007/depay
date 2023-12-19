@@ -35,6 +35,7 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
 	}
+
 	signature := c.GetHeader("signature")
 	msg := req.MerchantAddress + "&" + req.UserAddress
 	PublicKey := "MIGJAoGBAOGEKQqIX4KjHCiHGUzpHf0DFtVanCftqo055ENebbXBmyz/Y4v+NZsebVUeq/KMM5xig7n0HkxsTBl3HsfoEVLeXVobVv1YToLi3gUSAhkGzFrS7hE2zFr6cK3ZgywrecMmMExO5oVIuC55paeEorTEz1v6PTr0EEtxZegIyyclAgMBAAE="
@@ -42,6 +43,11 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 	res := rsa.RsaVerifySignBase64([]byte(msg), signature, PublicKey)
 	if !res {
 		c.JSON(http.StatusOK, gin.H{"msg": "signature is error", "code": 1})
+		return
+	}
+	merchant := &model.Merchant{}
+	if err := model.DB.Where("merchant_id=?", req.MerchantId).First(merchant).Error; err != nil {
+		c.JSON(http.StatusOK, gin.H{"msg": "merchant id is error", "code": 1})
 		return
 	}
 	id := s.Node.Generate().Int64()

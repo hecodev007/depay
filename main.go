@@ -74,6 +74,7 @@ func main() {
 	}
 	r := gin.Default()
 	r.Use(middleware.Cors())
+	r.Use(middleware.SetUp())
 	r.POST("/genPayOrder", s.GenPayOrder)
 	r.GET("/getPayOrder", s.GetPayOrder)
 	r.GET("/getOrderStatus", s.GetOrderStatus)

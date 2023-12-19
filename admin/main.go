@@ -9,15 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/patrickmn/go-cache"
 	log "github.com/sirupsen/logrus"
-	"github.com/vrecan/death"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gLog "gorm.io/gorm/logger"
+	"os"
+	"os/signal"
 
 	"depay/config"
 	"depay/loger"
 	"depay/model"
-	"syscall"
 	"time"
 )
 
@@ -69,19 +69,28 @@ func main() {
 	auth.NoCheckUrl = append(auth.NoCheckUrl, "/")
 	//	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
 	r.Use(auth.JWTAuth())
-	r.POST("/login", s.Login)
-	r.GET("/register", s.RegUser)
-	r.POST("/addMerchant", s.AddMerchant)
+	router := r.Group("admin")
+	router.POST("/login", s.Login)
+	router.GET("/register", s.RegUser)
+	//router.POST("/setWalletAddress", s.SetWalletAddress)
+	router.POST("/setWebHook", s.SetWebHook)
+	router.POST("/setCoin", s.SetCoin)
+	router.POST("/getEmailCode", s.GetEmailCode)
+	router.GET("/getMerchantInfo", s.GetMerchantInfo)
+	router.GET("/getCoinInfo", s.GetCoinInfo)
+	router.GET("/getPayOrder", s.GetPayOrders)
+	router.GET("/getRequestLog", s.GetRequestLog)
+	router.GET("/getCoinInfo", s.GetCoinInfo)
 
 	fmt.Println("start serve。。。")
 
 	r.Run(conf.Port)
 	// 捕捉退出信号
-	d := death.NewDeath(syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL,
-		syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGALRM)
-	d.WaitForDeathWithFunc(func() {
-		fmt.Println(" server stoped.")
-	})
+	signalChan := make(chan os.Signal)
+	signal.Notify(signalChan, os.Interrupt)
+	sig := <-signalChan
+	log.Println("Get Signal:", sig)
+	log.Println("Shutdown Server ...")
 
 }
 
