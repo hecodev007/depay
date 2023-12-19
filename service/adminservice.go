@@ -290,7 +290,7 @@ func (s *Service) RegUser(c *gin.Context) {
 }
 
 type AdminLogReq struct {
-	Email int64  `json:"email" form:"email" binding:"required"`
+	Email string `json:"email" form:"email" binding:"required"`
 	Pwd   string `json:"pwd" form:"pwd" binding:"required"`
 }
 
