@@ -1,6 +1,7 @@
 package main
 
 import (
+	"depay/middleware"
 	"depay/middleware/auth"
 	"depay/service"
 	"flag"
@@ -74,6 +75,7 @@ func main() {
 	r := gin.Default()
 	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
 	auth.NoCheckUrl = append(auth.NoCheckUrl, "/")
+	r.Use(middleware.Cors())
 	//	auth.NoCheckUrl = append(auth.NoCheckUrl, "/register")
 	r.Use(auth.JWTAuth())
 	router := r.Group("admin")
