@@ -193,7 +193,7 @@ func (s *Service) GetMerchantInfo(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "secret_key": merchant.SecretKey, "public_key": merchant.PublicKey, "web_hook": merchant.WebHook, "merchant_id": merchant.MerchantId})
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "merchant_info": merchant})
 }
 func (s *Service) GetCoinInfo(c *gin.Context) {
 
