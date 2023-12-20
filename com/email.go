@@ -70,7 +70,7 @@ func SendData(data, _to string) error {
 	body := Email{
 		Sender: Sender{
 			Name:  "Abeats Game",
-			Email: "notification@email.abeats.com",
+			Email: "notify@rns.id",
 		},
 		To: []To{{
 			Name:  "W",
@@ -78,7 +78,7 @@ func SendData(data, _to string) error {
 		}},
 		Subject: "Validate Code",
 	}
-	html := fmt.Sprintf("<html><head></head><body><p>your code is:</p>%v.</p></body></html>", data)
+	html := fmt.Sprintf("<html><body><h1>This is my first transactional email  %v</h1></body></html", data)
 	body.HtmlContent = html
 	dt, _ := json.Marshal(body)
 	fmt.Println("send:", string(dt))
@@ -86,6 +86,8 @@ func SendData(data, _to string) error {
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("api-key", "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")
 	request.Header.Set("accept", "application/json")
+	request.Header.Set("Some-Custom-Name", "unique-id-1234")
+
 	//异常捕捉
 	if err != nil {
 		fmt.Println(err)

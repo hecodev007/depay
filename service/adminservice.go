@@ -133,9 +133,9 @@ func (s *Service) GetRequestLog(c *gin.Context) {
 	}
 
 	orders := make([]model.RequestLog, 0)
-	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(orders).Error; err != nil {
+	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(orders).Error; err != nil {
 		log.Error(err)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 		return
 	}
 
