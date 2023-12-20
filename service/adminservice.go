@@ -75,7 +75,7 @@ func (s *Service) SetCoin(c *gin.Context) {
 }
 
 type SetWebHookReq struct {
-	url string `json:"url"  form:"url" binding:"required"`
+	Url string `json:"url"  form:"url" binding:"required"`
 }
 
 func (s *Service) SetWebHook(c *gin.Context) {
@@ -100,7 +100,7 @@ func (s *Service) SetWebHook(c *gin.Context) {
 		return
 	}
 
-	merchant.WebHook = req.url
+	merchant.WebHook = req.Url
 	if err := model.DB.Save(merchant).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
