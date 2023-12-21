@@ -133,7 +133,7 @@ func (s *Service) GetRequestLog(c *gin.Context) {
 	}
 
 	orders := make([]model.RequestLog, 0)
-	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(orders).Error; err != nil {
+	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 		return
@@ -167,7 +167,7 @@ func (s *Service) GetPayOrders(c *gin.Context) {
 	}
 
 	orders := make([]model.PayOrder, 0)
-	if err := model.DB.Order("id desc").Where("merchant_id=? and status = ? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.Status, req.StartTime, req.EndTime).Model(model.PayOrder{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(orders).Error; err != nil {
+	if err := model.DB.Order("id desc").Where("merchant_id=? and status = ? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.Status, req.StartTime, req.EndTime).Model(&model.PayOrder{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
