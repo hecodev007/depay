@@ -10,6 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/wumansgy/goEncrypt/rsa"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -57,7 +58,7 @@ func (s *Service) SetCoin(c *gin.Context) {
 		return
 	}
 	merchant := &model.MerchantAddress{}
-	if err := model.DB.Model(merchant).Where("merchant_id=?", claims.MerchantId).First(merchant).Error; err != nil {
+	if err := model.DB.Model(merchant).Where("merchant_id=?", claims.MerchantId).First(merchant).Error; err != nil && !strings.Contains(err.Error(), "record not found") {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
