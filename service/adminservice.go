@@ -68,6 +68,11 @@ func (s *Service) SetCoin(c *gin.Context) {
 	merchant.MerchantId = claims.MerchantId
 	merchant.Coin = req.Coin
 	merchant.Chain = req.Chain
+	if merchant.Id == int64(0) {
+		merchant.CreateTime = time.Now()
+		merchant.UpdateTime = time.Now()
+
+	}
 	if err := model.DB.Save(merchant).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
