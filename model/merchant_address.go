@@ -5,7 +5,7 @@ import (
 )
 
 type MerchantAddress struct {
-	Id         string    `json:"id"`
+	Id         int64     `json:"id"`
 	Address    string    `json:"address"`
 	MerchantId int64     `json:"merchant_id"`
 	CreateTime time.Time `json:"create_time" gorm:"comment:创建时间"`
