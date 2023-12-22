@@ -52,7 +52,8 @@ func (s *Service) SetCoin(c *gin.Context) {
 	// parseToken 解析token包含的信息
 	claims, err := j.ParseToken(token)
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！"})
+		log.Error("parse token ", err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！" + err.Error()})
 		return
 	}
 	merchant := &model.MerchantAddress{}
