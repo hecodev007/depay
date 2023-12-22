@@ -58,7 +58,7 @@ func (s *Service) SetCoin(c *gin.Context) {
 		return
 	}
 	merchant := &model.MerchantAddress{}
-	if err := model.DB.Model(merchant).Where("merchant_id=?", claims.MerchantId).First(merchant).Error; err != nil && !strings.Contains(err.Error(), "record not found") {
+	if err := model.DB.Model(merchant).Where("merchant_id=? and coin = ? and chain = ?", claims.MerchantId, req.Coin, req.Chain).First(merchant).Error; err != nil && !strings.Contains(err.Error(), "record not found") {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
@@ -71,7 +71,13 @@ func (s *Service) SetCoin(c *gin.Context) {
 	if merchant.Id == int64(0) {
 		merchant.CreateTime = time.Now()
 		merchant.UpdateTime = time.Now()
-
+		if err := model.DB.Create(merchant).Error; err != nil {
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+		return
 	}
 	if err := model.DB.Save(merchant).Error; err != nil {
 		log.Error(err)
