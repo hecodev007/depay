@@ -14,6 +14,35 @@ import (
 	"time"
 )
 
+type DelCoinReq struct {
+	Id int64 `json:"id" form:"id" binding:"required"`
+}
+
+func (s *Service) DelCoin(c *gin.Context) {
+	req := DelCoinReq{}
+	if err := c.ShouldBind(&req); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
+		return
+	}
+	token := c.GetHeader("token")
+	j := auth.NewJWT()
+	// parseToken 解析token包含的信息
+	_, err := j.ParseToken(token)
+	if err != nil {
+		log.Error("parse token ", err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！" + err.Error()})
+		return
+	}
+
+	if err := model.DB.Model(&model.MerchantAddress{}).Where("id=?", req.Id).Delete(&model.MerchantAddress{}).Error; err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+}
+
 type GetEmailCodeReq struct {
 	Email string `json:"email" form:"email" binding:"required"`
 }
@@ -146,13 +175,20 @@ func (s *Service) GetRequestLog(c *gin.Context) {
 	}
 
 	orders := make([]model.RequestLog, 0)
+	total := int64(0)
+	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
+		return
+	}
+
 	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "list": orders})
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "total": total, "list": orders})
 }
 
 type PayOrdersReq struct {
@@ -160,7 +196,7 @@ type PayOrdersReq struct {
 	PageIndex int    `json:"page_index"  form:"page_index" binding:"required"`
 	StartTime string `json:"start_time"  form:"start_time" binding:"required"`
 	EndTime   string `json:"end_time"  form:"end_time" binding:"required"`
-	Status    int    `json:"status"  form:"status" binding:"required"`
+	//	Status    int    `json:"status"  form:"status" binding:"required"`
 }
 
 func (s *Service) GetPayOrders(c *gin.Context) {
@@ -180,13 +216,20 @@ func (s *Service) GetPayOrders(c *gin.Context) {
 	}
 
 	orders := make([]model.PayOrder, 0)
-	if err := model.DB.Order("id desc").Where("merchant_id=? and status = ? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.Status, req.StartTime, req.EndTime).Model(&model.PayOrder{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
+	total := int64(0)
+	if err := model.DB.Where("merchant_id=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.PayOrder{}).Count(&total).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "list": orders})
+	if err := model.DB.Order("id desc").Where("merchant_id=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.PayOrder{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "total": total, "list": orders})
 }
 
 func (s *Service) GetMerchantInfo(c *gin.Context) {
