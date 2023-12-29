@@ -10,6 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/wumansgy/goEncrypt/rsa"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -80,9 +81,9 @@ type DelCoinReq struct {
 	Address string `json:"address" form:"address" binding:"required"`
 }
 type SetCoinReq struct {
-	Coin    []string `json:"coin" form:"coin" binding:"required"`
-	Chain   string   `json:"chain" form:"chain" binding:"required"`
-	Address string   `json:"address" form:"address" binding:"required"`
+	Coin    string `json:"coin" form:"coin" binding:"required"`
+	Chain   string `json:"chain" form:"chain" binding:"required"`
+	Address string `json:"address" form:"address" binding:"required"`
 }
 
 func (s *Service) SetCoin(c *gin.Context) {
@@ -101,7 +102,9 @@ func (s *Service) SetCoin(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！" + err.Error()})
 		return
 	}
-	for _, v := range req.Coin {
+
+	coins := strings.Split(req.Coin, ",")
+	for _, v := range coins {
 		merchant := &model.MerchantAddress{}
 		merchant.Address = req.Address
 		merchant.MerchantId = claims.MerchantId
