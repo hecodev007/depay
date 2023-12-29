@@ -4,6 +4,7 @@ import (
 	"depay/model"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/patrickmn/go-cache"
 
 	"net/http"
 	"time"
@@ -45,6 +46,7 @@ func GenerateToken(c *gin.Context, user model.Admin) {
 		"msg":  "登录成功！",
 		"data": data,
 	})
+	model.GoCache.Set(user.UserName, 1, cache.NoExpiration)
 	return
 }
 

@@ -60,6 +60,21 @@ func (s *Service) GetEmailCode(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "email_code": code})
 }
 
+func (s *Service) LogOut(c *gin.Context) {
+
+	token := c.GetHeader("token")
+	j := auth.NewJWT()
+	// parseToken 解析token包含的信息
+	claims, err := j.ParseToken(token)
+	if err != nil {
+		log.Error("parse token ", err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！" + err.Error()})
+		return
+	}
+	model.GoCache.Delete(claims.UserName)
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+}
+
 type SetCoinReq struct {
 	Coin    string `json:"coin" form:"coin" binding:"required"`
 	Chain   string `json:"chain" form:"chain" binding:"required"`
@@ -112,6 +127,35 @@ func (s *Service) SetCoin(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 }
 
+type ChangePwdReq struct {
+	Pwd string `json:"pwd"  form:"pwd" binding:"required"`
+}
+
+func (s *Service) ChangePwd(c *gin.Context) {
+	req := ChangePwdReq{}
+	if err := c.ShouldBind(&req); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
+		return
+	}
+	token := c.GetHeader("token")
+	j := auth.NewJWT()
+	// parseToken 解析token包含的信息
+	claims, err := j.ParseToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！"})
+		return
+	}
+	merchant := &model.Admin{}
+	if err := model.DB.Model(merchant).Where("merchant_id=?", claims.MerchantId).Update("pwd", req.Pwd).Error; err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+}
+
 type SetWebHookReq struct {
 	Url string `json:"url"  form:"url" binding:"required"`
 }
@@ -152,6 +196,7 @@ type GetRequestLogReq struct {
 	PageIndex int    `json:"page_index"  form:"page_index" binding:"required"`
 	StartTime string `json:"start_time"  form:"start_time" binding:"required"`
 	EndTime   string `json:"end_time"  form:"end_time" binding:"required"`
+	Direct    int    `json:"direct" form:"direct" binding:"required"`
 }
 
 func (s *Service) GetRequestLog(c *gin.Context) {
@@ -172,13 +217,13 @@ func (s *Service) GetRequestLog(c *gin.Context) {
 
 	orders := make([]model.RequestLog, 0)
 	total := int64(0)
-	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
+	if err := model.DB.Order("id desc").Where("merchant_id=? and direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 		return
 	}
 
-	if err := model.DB.Order("id desc").Where("merchant_id=? and  create_time >= ? and create_time <= ?", claims.MerchantId, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
+	if err := model.DB.Order("id desc").Where("merchant_id=? and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 		return

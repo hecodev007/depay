@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"depay/model"
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
@@ -135,7 +136,11 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 			}
 		}
 	}
+
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
+		if _, ok := model.GoCache.Get(claims.UserName); !ok {
+			return nil, TokenInvalid
+		}
 		return claims, nil
 	}
 	return nil, TokenInvalid
