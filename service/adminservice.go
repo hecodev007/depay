@@ -321,6 +321,7 @@ func (s *Service) GetCoinInfo(c *gin.Context) {
 	for _, v := range merchants {
 		if a, ok := list[v.Address]; ok {
 			a.Coin = append(a.Coin, v.Coin)
+			list[v.Address] = a
 		} else {
 			coin := make([]string, 0)
 			coin = append(coin, v.Coin)
