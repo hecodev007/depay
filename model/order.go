@@ -9,12 +9,14 @@ import (
 type PayOrder struct {
 	Id              int64           `json:"id"`
 	OrderId         int64           `json:"order_id"`
+	MerchantOrder   string          `json:"merchant_order"`
 	UsdtAmount      decimal.Decimal `json:"usdt_amount"`
 	PayedUsdt       decimal.Decimal `json:"payed_usdt"`
 	SwapAmount      decimal.Decimal `json:"swap_amount"`
 	TokenAmount     decimal.Decimal `json:"token_amount"`
 	TokenAddress    string          `json:"token_address"`
 	Status          int             `json:"status"`
+	Notifyed        int             `json:"notifyed"`
 	MerchantAddress string          `json:"merchant_address"`
 	MerchantId      int64           `json:"merchant_id"`
 	UserAddress     string          `json:"user_address"`

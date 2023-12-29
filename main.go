@@ -93,7 +93,15 @@ func main() {
 
 		}
 	}()
+	go func() {
+		for {
+			select {
+			case <-time.After(15 * time.Second):
+				service.Notify()
+			}
 
+		}
+	}()
 	r.Run(conf.Port)
 	// 捕捉退出信号
 	d := death.NewDeath(syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL,

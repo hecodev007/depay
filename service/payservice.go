@@ -20,6 +20,7 @@ type Service struct {
 }
 type PayOrderReq struct {
 	MerchantAddress string          `form:"merchant_address" json:"merchant_address" binding:"required"`
+	MerchantOrder   string          `form:"merchant_order" json:"merchant_order" binding:"required"`
 	MerchantId      int64           `form:"merchant_id"  json:"merchant_id" binding:"required"`
 	UserAddress     string          `form:"user_address" json:"user_address" binding:"required"`
 	UserId          int64           `form:"user_id" json:"user_id"`
@@ -61,6 +62,7 @@ func (s *Service) GenPayOrder(c *gin.Context) {
 		UserAddress:     req.UserAddress,
 		MerchantAddress: req.MerchantAddress,
 		MerchantId:      req.MerchantId,
+		MerchantOrder:   req.MerchantOrder,
 		Status:          model.UNPAY,
 		UsdtAmount:      req.UsdtAmount,
 		CancelUrl:       req.CancelUrl,

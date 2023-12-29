@@ -14,12 +14,8 @@ import (
 	"time"
 )
 
-type DelCoinReq struct {
-	Id int64 `json:"id" form:"id" binding:"required"`
-}
-
 func (s *Service) DelCoin(c *gin.Context) {
-	req := DelCoinReq{}
+	req := SetCoinReq{}
 	if err := c.ShouldBind(&req); err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
@@ -28,14 +24,14 @@ func (s *Service) DelCoin(c *gin.Context) {
 	token := c.GetHeader("token")
 	j := auth.NewJWT()
 	// parseToken 解析token包含的信息
-	_, err := j.ParseToken(token)
+	claims, err := j.ParseToken(token)
 	if err != nil {
 		log.Error("parse token ", err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！" + err.Error()})
 		return
 	}
 
-	if err := model.DB.Model(&model.MerchantAddress{}).Where("id=?", req.Id).Delete(&model.MerchantAddress{}).Error; err != nil {
+	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=? and address = ? and coin=? ", claims.MerchantId, req.Chain, req.Address, req.Coin).Delete(&model.MerchantAddress{}).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
 		return
@@ -251,8 +247,18 @@ func (s *Service) GetMerchantInfo(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "merchant_info": merchant})
 }
-func (s *Service) GetCoinInfo(c *gin.Context) {
 
+type CoinInfoReq struct {
+	Chain string `json:"chain"  form:"chain" binding:"required"`
+}
+
+func (s *Service) GetCoinInfo(c *gin.Context) {
+	req := CoinInfoReq{}
+	if err := c.ShouldBind(&req); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
+		return
+	}
 	token := c.GetHeader("token")
 	j := auth.NewJWT()
 	// parseToken 解析token包含的信息
@@ -262,14 +268,22 @@ func (s *Service) GetCoinInfo(c *gin.Context) {
 		return
 	}
 	merchants := make([]model.MerchantAddress, 0)
-	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=?", claims.MerchantId).Find(&merchants).Error; err != nil {
+	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=?", claims.MerchantId, req.Chain).Find(&merchants).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
 	}
-
-	//	list, _ := json.Marshal(merchants)
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "list": merchants})
+	list := make(map[string][]string)
+	for _, v := range merchants {
+		if a, ok := list[v.Address]; ok {
+			a = append(a, v.Coin)
+		} else {
+			coin := make([]string, 0)
+			coin = append(coin, v.Coin)
+			list[v.Address] = coin
+		}
+	}
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "chain": req.Chain, "list": list})
 }
 
 type AddAdminReq struct {

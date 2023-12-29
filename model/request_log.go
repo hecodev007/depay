@@ -10,6 +10,7 @@ type RequestLog struct {
 	Rsp        string    `json:"rsp"`
 	CreateTime time.Time `json:"create_time"`
 	MerchantId int64     `json:"merchantId"`
+	Status     int       `json:"status"`
 }
 
 func (RequestLog) TableName() string {
