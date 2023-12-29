@@ -98,7 +98,7 @@ func (s *Service) SetCoin(c *gin.Context) {
 		return
 	}
 	merchant := &model.MerchantAddress{}
-	if err := model.DB.Model(merchant).Where("merchant_id=? and coin = ? and chain = ?", claims.MerchantId, req.Coin, req.Chain).First(merchant).Error; err != nil && !strings.Contains(err.Error(), "record not found") {
+	if err := model.DB.Model(merchant).Where("merchant_id=? and chain = ? and address=?  and coin = ?", claims.MerchantId, req.Chain, req.Address, req.Coin).First(merchant).Error; err != nil && !strings.Contains(err.Error(), "record not found") {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
@@ -297,8 +297,9 @@ func (s *Service) GetMerchantInfo(c *gin.Context) {
 //		Chain string `json:"chain"  form:"chain" binding:"required"`
 //	}
 type CoinChain struct {
-	Chain string
-	Coin  string
+	Chain   string
+	Coin    string
+	Address string
 }
 
 func (s *Service) GetCoinInfo(c *gin.Context) {
@@ -322,15 +323,9 @@ func (s *Service) GetCoinInfo(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
 	}
-	list := make(map[string][]CoinChain)
+	list := make([]CoinChain, 0)
 	for _, v := range merchants {
-		if a, ok := list[v.Address]; ok {
-			a = append(a, CoinChain{v.Chain, v.Coin})
-		} else {
-			coin := make([]CoinChain, 0)
-			coin = append(coin, CoinChain{v.Chain, v.Coin})
-			list[v.Address] = coin
-		}
+		list = append(list, CoinChain{v.Address, v.Coin, v.Chain})
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "list": list})
 }
