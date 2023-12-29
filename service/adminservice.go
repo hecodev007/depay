@@ -10,12 +10,11 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/wumansgy/goEncrypt/rsa"
 	"net/http"
-	"strings"
 	"time"
 )
 
 func (s *Service) DelCoin(c *gin.Context) {
-	req := SetCoinReq{}
+	req := DelCoinReq{}
 	if err := c.ShouldBind(&req); err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
@@ -75,10 +74,15 @@ func (s *Service) LogOut(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 }
 
-type SetCoinReq struct {
+type DelCoinReq struct {
 	Coin    string `json:"coin" form:"coin" binding:"required"`
 	Chain   string `json:"chain" form:"chain" binding:"required"`
 	Address string `json:"address" form:"address" binding:"required"`
+}
+type SetCoinReq struct {
+	Coin    []string `json:"coin" form:"coin" binding:"required"`
+	Chain   string   `json:"chain" form:"chain" binding:"required"`
+	Address string   `json:"address" form:"address" binding:"required"`
 }
 
 func (s *Service) SetCoin(c *gin.Context) {
@@ -97,32 +101,20 @@ func (s *Service) SetCoin(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！" + err.Error()})
 		return
 	}
-	merchant := &model.MerchantAddress{}
-	if err := model.DB.Model(merchant).Where("merchant_id=? and chain = ? and address=?  and coin = ?", claims.MerchantId, req.Chain, req.Address, req.Coin).First(merchant).Error; err != nil && !strings.Contains(err.Error(), "record not found") {
-		log.Error(err)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
-		return
-	}
-
-	merchant.Address = req.Address
-	merchant.MerchantId = claims.MerchantId
-	merchant.Coin = req.Coin
-	merchant.Chain = req.Chain
-	if merchant.Id == int64(0) {
+	for _, v := range req.Coin {
+		merchant := &model.MerchantAddress{}
+		merchant.Address = req.Address
+		merchant.MerchantId = claims.MerchantId
+		merchant.Coin = v
+		merchant.Chain = req.Chain
 		merchant.CreateTime = time.Now()
 		merchant.UpdateTime = time.Now()
 		if err := model.DB.Create(merchant).Error; err != nil {
 			log.Error(err)
-			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
-			return
 		}
 		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 		return
-	}
-	if err := model.DB.Save(merchant).Error; err != nil {
-		log.Error(err)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
-		return
+
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 }
