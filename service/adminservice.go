@@ -297,9 +297,8 @@ func (s *Service) GetMerchantInfo(c *gin.Context) {
 //		Chain string `json:"chain"  form:"chain" binding:"required"`
 //	}
 type CoinChain struct {
-	Chain   string
-	Coin    string
-	Address string
+	Chain string
+	Coin  []string
 }
 
 func (s *Service) GetCoinInfo(c *gin.Context) {
@@ -323,10 +322,19 @@ func (s *Service) GetCoinInfo(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
 	}
-	list := make([]CoinChain, 0)
+	list := make(map[string]CoinChain)
 	for _, v := range merchants {
-		list = append(list, CoinChain{v.Address, v.Coin, v.Chain})
+		if a, ok := list[v.Address]; ok {
+			a.Coin = append(a.Coin, v.Coin)
+		} else {
+			coin := make([]string, 0)
+			coin = append(coin, v.Coin)
+			list[v.Address] = CoinChain{
+				v.Chain, coin,
+			}
+		}
 	}
+	fmt.Println("list:", list)
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "list": list})
 }
 
