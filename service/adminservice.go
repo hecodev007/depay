@@ -202,7 +202,7 @@ type GetRequestLogReq struct {
 	PageIndex int    `json:"page_index"  form:"page_index" binding:"required"`
 	StartTime string `json:"start_time"  form:"start_time" binding:"required"`
 	EndTime   string `json:"end_time"  form:"end_time" binding:"required"`
-	Direct    int    `json:"direct" form:"direct" binding:"required"`
+	Direct    int    `json:"direct" form:"direct" `
 }
 
 func (s *Service) GetRequestLog(c *gin.Context) {
