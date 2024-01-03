@@ -31,7 +31,7 @@ func (s *Service) DelCoin(c *gin.Context) {
 		return
 	}
 
-	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=? and address = ? and coin=? ", claims.MerchantId, req.Chain, req.Address, req.Coin).Delete(&model.MerchantAddress{}).Error; err != nil {
+	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=? and address = ?", claims.MerchantId, req.Chain, req.Address).Delete(&model.MerchantAddress{}).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "insert db  err！"})
 		return
