@@ -93,7 +93,7 @@ func main() {
 	router.GET("/getCoinInfo", s.GetCoinInfo)
 	router.GET("/getPayOrder", s.GetPayOrders)
 	router.GET("/getRequestLog", s.GetRequestLog)
-	router.POST("/delCoin", s.DelCoin)
+	router.POST("/delAddress", s.DelCoin)
 
 	fmt.Println("start serve。。。")
 
