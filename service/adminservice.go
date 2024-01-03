@@ -76,7 +76,7 @@ func (s *Service) LogOut(c *gin.Context) {
 }
 
 type DelCoinReq struct {
-	Coin    string `json:"coin" form:"coin" binding:"required"`
+	//Coin    string `json:"coin" form:"coin" binding:"required"`
 	Chain   string `json:"chain" form:"chain" binding:"required"`
 	Address string `json:"address" form:"address" binding:"required"`
 }
