@@ -15,6 +15,7 @@ type PayOrder struct {
 	SwapAmount      decimal.Decimal `json:"swap_amount"`
 	TokenAmount     decimal.Decimal `json:"token_amount"`
 	TokenAddress    string          `json:"token_address"`
+	Chain           string          `json:"chain"`
 	Status          int             `json:"status"`
 	Notifyed        int             `json:"notifyed"`
 	MerchantAddress string          `json:"merchant_address"`

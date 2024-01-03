@@ -21,6 +21,7 @@ type Config struct {
 	//Runtime string //release/debug
 	Name      string
 	Port      string
+	Chain     string
 	AdminPort string
 	Mysql     Conf
 }

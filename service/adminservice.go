@@ -103,6 +103,9 @@ func (s *Service) SetCoin(c *gin.Context) {
 		return
 	}
 
+	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=? and address = ?", claims.MerchantId, req.Chain, req.Address).Delete(&model.MerchantAddress{}).Error; err != nil {
+		log.Info(err)
+	}
 	coins := strings.Split(req.Coin, ",")
 	for _, v := range coins {
 		merchant := &model.MerchantAddress{}
@@ -115,15 +118,17 @@ func (s *Service) SetCoin(c *gin.Context) {
 		if err := model.DB.Create(merchant).Error; err != nil {
 			log.Error(err)
 		}
-		c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
-		return
+		//c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
+		//return
 
 	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 }
 
 type ChangePwdReq struct {
-	Pwd string `json:"pwd"  form:"pwd" binding:"required"`
+	Email string `json:"email" form:"email"  binding:"required"`
+	Pwd   string `json:"pwd"  form:"pwd" binding:"required"`
+	Code  string `json:"code"  form:"code" binding:"required"`
 }
 
 func (s *Service) ChangePwd(c *gin.Context) {
@@ -133,16 +138,22 @@ func (s *Service) ChangePwd(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
 	}
-	token := c.GetHeader("token")
-	j := auth.NewJWT()
-	// parseToken 解析token包含的信息
-	claims, err := j.ParseToken(token)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！"})
+	//token := c.GetHeader("token")
+	//j := auth.NewJWT()
+	//// parseToken 解析token包含的信息
+	//claims, err := j.ParseToken(token)
+	//if err != nil {
+	//	c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token err！"})
+	//	return
+	//}
+	code, is := model.GoCache.Get(req.Email)
+	cd := code.(string)
+	if !is || req.Code != cd {
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "code is err！"})
 		return
 	}
 	merchant := &model.Admin{}
-	if err := model.DB.Model(merchant).Where("merchant_id=?", claims.MerchantId).Update("pwd", req.Pwd).Error; err != nil {
+	if err := model.DB.Model(merchant).Where("user_name=?", req.Email).Update("pwd", req.Pwd).Error; err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
 		return
@@ -213,6 +224,11 @@ func (s *Service) GetRequestLog(c *gin.Context) {
 	orders := make([]model.RequestLog, 0)
 	total := int64(0)
 	if err := model.DB.Order("id desc").Where("merchant_id=? and direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
+		if strings.Contains(err.Error(), "record not found") {
+			c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "no data"})
+			return
+		}
+
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 		return
@@ -292,8 +308,9 @@ func (s *Service) GetMerchantInfo(c *gin.Context) {
 //		Chain string `json:"chain"  form:"chain" binding:"required"`
 //	}
 type CoinChain struct {
-	Chain string
-	Coin  []string
+	Chain   string
+	Address string
+	Coin    []string
 }
 
 func (s *Service) GetCoinInfo(c *gin.Context) {
@@ -319,14 +336,14 @@ func (s *Service) GetCoinInfo(c *gin.Context) {
 	}
 	list := make(map[string]CoinChain)
 	for _, v := range merchants {
-		if a, ok := list[v.Address]; ok {
+		if a, ok := list[v.Address+","+v.Chain]; ok {
 			a.Coin = append(a.Coin, v.Coin)
-			list[v.Address] = a
+			list[v.Address+","+v.Chain] = a
 		} else {
 			coin := make([]string, 0)
 			coin = append(coin, v.Coin)
-			list[v.Address] = CoinChain{
-				v.Chain, coin,
+			list[v.Address+","+v.Chain] = CoinChain{
+				v.Chain, v.Address, coin,
 			}
 		}
 	}

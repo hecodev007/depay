@@ -69,7 +69,7 @@ func SendData(data, _to string) error {
 
 	body := Email{
 		Sender: Sender{
-			Name:  "Abeats Game",
+			Name:  "RNS PAY",
 			Email: "notify@rns.id",
 		},
 		To: []To{{
@@ -78,13 +78,13 @@ func SendData(data, _to string) error {
 		}},
 		Subject: "Validate Code",
 	}
-	html := fmt.Sprintf("<html><body><h1>This is my first transactional email  %v</h1></body></html", data)
+	html := fmt.Sprintf("<html><body><h1> your code is: %v</h1></body></html", data)
 	body.HtmlContent = html
 	dt, _ := json.Marshal(body)
 	fmt.Println("send:", string(dt))
 	request, err := http.NewRequest("POST", "https://api.brevo.com/v3/smtp/email", bytes.NewBuffer(dt))
 	request.Header.Set("Content-Type", "application/json")
-	request.Header.Set("api-key", "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")
+	request.Header.Set("api-key", "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")
 	request.Header.Set("accept", "application/json")
 	request.Header.Set("Some-Custom-Name", "unique-id-1234")
 
@@ -99,13 +99,13 @@ func SendData(data, _to string) error {
 	//关闭流
 	defer response.Body.Close()
 	//检出结果集
-	_, err = ioutil.ReadAll(response.Body)
+	resp, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		fmt.Printf("ioutil.ReadAll failed ,err:%v", err)
 		return err
 
 	}
-
+	fmt.Println(string(resp))
 	//list:=make([]Data,0)
 	//fmt.Println("Data:", string(rest))
 	//r := DT{}
@@ -116,7 +116,7 @@ func SendData(data, _to string) error {
 }
 func SendMail(_to string) error {
 	validCode := GenValidateCode(6)
-	fmt.Println("验证码：", validCode)
+	//fmt.Println("验证码：", validCode)
 
 	err := SendData(validCode, _to)
 	if err != nil {

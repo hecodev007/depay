@@ -2,6 +2,8 @@ package contract
 
 import (
 	"context"
+	"depay/config"
+
 	//	"depay/contract"
 	"depay/model"
 	"fmt"
@@ -116,6 +118,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				order.TokenAmount = toEthDbAmount(decimal.NewFromBigInt(event.TokenAmount, 0))
 				order.TokenAddress = event.PayToken.String()
 				order.UserAddress = event.User.String()
+				order.Chain = config.GlobalConf.Chain
 				order.SwapAmount = toUsdtDbAmount(decimal.NewFromBigInt(event.SwapAmount, 0))
 				fmt.Println("pay amount:", event.PayAmount.Int64())
 				fmt.Println("SwapAmount amount:", event.SwapAmount.Int64())
