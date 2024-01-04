@@ -46,7 +46,7 @@ func main() {
 	if err := conf.Init(cfgPath); err != nil {
 		panic(err)
 	}
-
+	fmt.Println(config.GlobalConf.Chain)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		conf.Mysql.Username,
 		conf.Mysql.Password,

@@ -119,7 +119,7 @@ func (s *Service) GetPayOrder(c *gin.Context) {
 	//	c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "valid signature！"})
 	//	return
 	//}
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "merchant_address": order.MerchantAddress, "merchant_id": order.MerchantId, "usdt_amount": order.UsdtAmount, "order_id": order.OrderId, "cancel_url": order.CancelUrl, "success_url": order.SuccessUrl})
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "merchant_address": order.MerchantAddress, "merchant_id": order.MerchantId, "usdt_amount": order.UsdtAmount, "order_id": order.OrderId, "cancel_url": order.CancelUrl, "success_url": order.SuccessUrl, "chain": order.Chain})
 }
 
 type GetOrderStatusReq struct {

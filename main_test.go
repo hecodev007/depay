@@ -2,9 +2,14 @@ package main
 
 import (
 	"depay/com"
+	"depay/config"
+	"depay/model"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wumansgy/goEncrypt/rsa"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	gLog "gorm.io/gorm/logger"
 	"io/ioutil"
 	"net/http/httptest"
 	"testing"
@@ -113,5 +118,46 @@ func TestCancelOrder(t *testing.T) {
 
 	body, _ := ioutil.ReadAll(w.Body)
 	fmt.Println(string(body))
+
+}
+
+func TestDB(t *testing.T) {
+
+	cfgPath := "./config/config.toml"
+
+	if err := conf.Init(cfgPath); err != nil {
+		panic(err)
+	}
+	fmt.Println(config.GlobalConf.Chain)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		conf.Mysql.Username,
+		conf.Mysql.Password,
+		conf.Mysql.HostPort,
+		conf.Mysql.DBName)
+
+	//全局使用，定义成共有的
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: gLog.Default.LogMode(gLog.Info),
+	})
+
+	if err != nil {
+		//log.Error(err)
+		return
+	} else {
+		model.DB = db
+	}
+
+	order := &model.PayOrder{}
+	if err := model.DB.Where("order_id=?", 1734452722045816832).First(order).Error; err != nil {
+
+	}
+
+	order.Chain = config.GlobalConf.Chain
+
+	if err := model.DB.Where("id=?", order.Id).Save(order).Error; err != nil {
+
+		fmt.Println("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
+
+	}
 
 }
