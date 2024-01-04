@@ -36,9 +36,10 @@ func GenerateToken(c *gin.Context, user model.Admin) {
 	}
 
 	data := LoginResult{
-		Token:    token,
-		UserId:   user.Id,
-		UserName: user.UserName,
+		Token:      token,
+		UserId:     user.Id,
+		UserName:   user.UserName,
+		MerchantId: user.MerchantId,
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -51,7 +52,8 @@ func GenerateToken(c *gin.Context, user model.Admin) {
 }
 
 type LoginResult struct {
-	Token    string `json:"token"`
-	UserId   int64  `json:"user_id"`
-	UserName string `json:"user_name"`
+	Token      string `json:"token"`
+	UserId     int64  `json:"user_id"`
+	UserName   string `json:"user_name"`
+	MerchantId int64  `json:"merchant_id"`
 }
