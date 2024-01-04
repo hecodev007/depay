@@ -120,6 +120,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				order.UserAddress = event.User.String()
 				order.Chain = config.GlobalConf.Chain
 				order.SwapAmount = toUsdtDbAmount(decimal.NewFromBigInt(event.SwapAmount, 0))
+				fmt.Println("chain:", order.Chain)
 				fmt.Println("pay amount:", event.PayAmount.Int64())
 				fmt.Println("SwapAmount amount:", event.SwapAmount.Int64())
 				order.PayedUsdt = toUsdtDbAmount(order.PayedUsdt.Add(decimal.NewFromBigInt(event.PayAmount, 0)))
@@ -131,7 +132,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 					order.Status = model.PART
 				}
 
-				if err := tx.Where("id=?", order.Id).Save(order).Error; err != nil {
+				if err := tx.Save(order).Error; err != nil {
 					log.Error("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
 					fmt.Println("[PayOrderEvent] 修改支付订单错误：", order.OrderId)
 					continue
