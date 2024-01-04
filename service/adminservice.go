@@ -155,7 +155,7 @@ func (s *Service) ChangePwd(c *gin.Context) {
 	merchant := &model.Admin{}
 	if err := model.DB.Model(merchant).Where("user_name=?", req.Email).Update("pwd", req.Pwd).Error; err != nil {
 		log.Error(err)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "token  err！"})
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db  err！"})
 		return
 	}
 

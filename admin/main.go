@@ -85,7 +85,7 @@ func main() {
 	router.POST("/register", s.RegUser)
 	//router.POST("/setWalletAddress", s.SetWalletAddress)
 	router.POST("/setWebHook", s.SetWebHook)
-	router.POST("/changePwd", s.SetWebHook)
+	router.POST("/changePwd", s.ChangePwd)
 	router.POST("/setCoin", s.SetCoin)
 	router.POST("/logout", s.LogOut)
 	router.POST("/getEmailCode", s.GetEmailCode)
