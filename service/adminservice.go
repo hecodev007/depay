@@ -103,7 +103,7 @@ func (s *Service) SetCoin(c *gin.Context) {
 		return
 	}
 
-	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=? ", claims.MerchantId, req.Chain, req.Address).Delete(&model.MerchantAddress{}).Error; err != nil {
+	if err := model.DB.Model(&model.MerchantAddress{}).Where("merchant_id=? and chain=? ", claims.MerchantId, req.Chain).Delete(&model.MerchantAddress{}).Error; err != nil {
 		log.Info(err)
 	}
 	coins := strings.Split(req.Coin, ",")
