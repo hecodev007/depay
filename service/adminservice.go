@@ -56,8 +56,8 @@ func (s *Service) GetEmailCode(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "send email err！"})
 		return
 	}
-	code, _ := model.GoCache.Get(req.Email)
-	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "email_code": code})
+	//code, _ := model.GoCache.Get(req.Email)
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 }
 
 func (s *Service) LogOut(c *gin.Context) {
@@ -203,6 +203,7 @@ type GetRequestLogReq struct {
 	StartTime string `json:"start_time"  form:"start_time" binding:"required"`
 	EndTime   string `json:"end_time"  form:"end_time" binding:"required"`
 	Direct    int    `json:"direct" form:"direct" `
+	Status    int    `json:"status"  form:"status" `
 }
 
 func (s *Service) GetRequestLog(c *gin.Context) {
@@ -223,21 +224,58 @@ func (s *Service) GetRequestLog(c *gin.Context) {
 
 	orders := make([]model.RequestLog, 0)
 	total := int64(0)
-	if err := model.DB.Order("id desc").Where("merchant_id=? and direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
-		if strings.Contains(err.Error(), "record not found") {
-			c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "no data"})
+	if req.Status == 200 {
+		if err := model.DB.Order("id desc").Where("merchant_id=? and status = ? and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Status, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
+			if strings.Contains(err.Error(), "record not found") {
+				c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "no data"})
+				return
+			}
+
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
 			return
 		}
 
-		log.Error(err)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
-		return
-	}
+		if err := model.DB.Order("id desc").Where("merchant_id=? and  status = ? and   direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Status, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
+			return
+		}
 
-	if err := model.DB.Order("id desc").Where("merchant_id=? and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
-		log.Error(err)
-		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
-		return
+	} else if req.Status == 1 {
+		if err := model.DB.Order("id desc").Where("merchant_id=? and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
+			if strings.Contains(err.Error(), "record not found") {
+				c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "no data"})
+				return
+			}
+
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
+			return
+		}
+
+		if err := model.DB.Order("id desc").Where("merchant_id=? and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
+			return
+		}
+	} else {
+		if err := model.DB.Order("id desc").Where("merchant_id=? and status!=200 and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Count(&total).Error; err != nil {
+			if strings.Contains(err.Error(), "record not found") {
+				c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "no data"})
+				return
+			}
+
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
+			return
+		}
+
+		if err := model.DB.Order("id desc").Where("merchant_id=? and  status!=200 and  direct=? and create_time >= ? and create_time <= ?", claims.MerchantId, req.Direct, req.StartTime, req.EndTime).Model(&model.RequestLog{}).Limit(req.PageSize).Offset((req.PageIndex - 1) * req.PageSize).Find(&orders).Error; err != nil {
+			log.Error(err)
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db err！"})
+			return
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "total": total, "list": orders})
@@ -391,6 +429,13 @@ func (s *Service) RegUser(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
 	}
+	cunt := int64(0)
+	model.DB.Model(&model.Admin{}).Where("user_name=?", req.Email).First(&model.Admin{}).Count(&cunt)
+	if cunt > 0 {
+
+		c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "The email has been registered."})
+		return
+	}
 	//token := c.GetHeader("token")
 	//j := auth.NewJWT()
 	//// parseToken 解析token包含的信息
@@ -465,6 +510,12 @@ func (s *Service) Login(c *gin.Context) {
 	}
 	admin := &model.Admin{}
 	if err := model.DB.Where("user_name=?", req.Email).First(admin).Error; err != nil {
+		if strings.Contains(err.Error(), "record not found") {
+
+			c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "Please enter a valid email address"})
+			return
+		}
+
 		log.Error("admin select user err:", req.Email)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
