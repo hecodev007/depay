@@ -51,6 +51,15 @@ func (s *Service) GetEmailCode(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
 	}
+	if req.Type == 2 {
+		cunt := int64(0)
+		model.DB.Model(&model.Admin{}).Where("user_name=?", req.Email).First(&model.Admin{}).Count(&cunt)
+		if cunt > 0 {
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "The email has been registered."})
+			return
+		}
+	}
+
 	err := com.SendMail(req.Email, req.Type)
 	if err != nil {
 		log.Error(err)
