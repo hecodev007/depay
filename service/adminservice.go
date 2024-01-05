@@ -439,7 +439,7 @@ func (s *Service) RegUser(c *gin.Context) {
 	model.DB.Model(&model.Admin{}).Where("user_name=?", req.Email).First(&model.Admin{}).Count(&cunt)
 	if cunt > 0 {
 
-		c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "The email has been registered."})
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "The email has been registered."})
 		return
 	}
 	//token := c.GetHeader("token")
@@ -518,7 +518,7 @@ func (s *Service) Login(c *gin.Context) {
 	if err := model.DB.Where("user_name=?", req.Email).First(admin).Error; err != nil {
 		if strings.Contains(err.Error(), "record not found") {
 
-			c.JSON(http.StatusOK, gin.H{"code": 2, "msg": "Please enter a valid email address"})
+			c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "This email address is not registered"})
 			return
 		}
 
