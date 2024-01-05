@@ -70,6 +70,7 @@ func Notify() {
 			Rsp:        string(resp),
 			Status:     response.StatusCode,
 			MerchantId: v.MerchantId,
+			Direct:     1,
 			CreateTime: time.Now(),
 		}
 
