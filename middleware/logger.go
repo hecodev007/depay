@@ -50,6 +50,7 @@ func SetUp() gin.HandlerFunc {
 			Req:        c.Request.PostForm.Encode(),
 			Rsp:        responseBody,
 			Status:     c.Writer.Status(),
+			Direct:     1,
 			CreateTime: time.Now(),
 		}
 

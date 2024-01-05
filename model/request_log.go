@@ -11,6 +11,7 @@ type RequestLog struct {
 	CreateTime time.Time `json:"create_time"`
 	MerchantId int64     `json:"merchantId"`
 	Status     int       `json:"status"`
+	Direct     int       `json:"direct"`
 }
 
 func (RequestLog) TableName() string {
