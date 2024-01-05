@@ -41,6 +41,7 @@ func (s *Service) DelCoin(c *gin.Context) {
 
 type GetEmailCodeReq struct {
 	Email string `json:"email" form:"email" binding:"required"`
+	Type  int    `json:"type" form:"type" binding:"required"`
 }
 
 func (s *Service) GetEmailCode(c *gin.Context) {
@@ -50,7 +51,7 @@ func (s *Service) GetEmailCode(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "param err！"})
 		return
 	}
-	err := com.SendMail(req.Email)
+	err := com.SendMail(req.Email, req.Type)
 	if err != nil {
 		log.Error(err)
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "send email err！"})
@@ -158,7 +159,12 @@ func (s *Service) ChangePwd(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "db  err！"})
 		return
 	}
-
+	err := com.SendMail(req.Email, 0)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusOK, gin.H{"code": 1, "msg": "send email err！"})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success"})
 }
 

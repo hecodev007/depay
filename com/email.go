@@ -62,7 +62,7 @@ type Email struct {
 	HtmlContent string `json:"htmlContent"`
 }
 
-func SendData(data, _to string) error {
+func SendData(data, _to, subject, content string) error {
 	//host := fmt.Sprintf(url2, page, pageSize)
 	//	fmt.Println(host)
 	//body := ioutil.NopCloser(strings.NewReader(v.Encode()))
@@ -76,9 +76,9 @@ func SendData(data, _to string) error {
 			Name:  "W",
 			Email: _to,
 		}},
-		Subject: "Validate Code",
+		Subject: subject,
 	}
-	html := fmt.Sprintf("<html><body><h1> your code is: %v</h1></body></html", data)
+	html := fmt.Sprintf("<html><body><h1> %v: %v</h1></body></html", content, data)
 	body.HtmlContent = html
 	dt, _ := json.Marshal(body)
 	fmt.Println("send:", string(dt))
@@ -114,11 +114,23 @@ func SendData(data, _to string) error {
 	//return r, err
 	return nil
 }
-func SendMail(_to string) error {
+func SendMail(_to string, tp int) error {
 	validCode := GenValidateCode(6)
+	if tp == 0 {
+		validCode = ""
+	}
 	//fmt.Println("验证码：", validCode)
+	content := "Your password has been reset successfully."
+	subject := "Password Reset Confirmation"
+	if tp == 1 {
+		content = "To reset your password, use the verification code below:\n\nVerification Code:"
+		subject = "Password Reset Verification"
+	} else if tp == 2 { //注册
+		content = "Verification Code:"
+		subject = "register rsn"
+	}
 
-	err := SendData(validCode, _to)
+	err := SendData(validCode, _to, subject, content)
 	if err != nil {
 		return err
 	}
