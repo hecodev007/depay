@@ -87,7 +87,7 @@ func main() {
 		for {
 			select {
 			case <-time.After(5 * time.Second):
-				contract.FilOne("https://bsc-pokt.nodies.app", []string{"0xCD66a96A87FcA26b516Eb673A2B95a651307Cf70"})
+				contract.FilOne("https://bsc-pokt.nodies.app", []string{"0x97E1614db4E8f1Db69d08F0eBb252749E2085f15"})
 
 			}
 
