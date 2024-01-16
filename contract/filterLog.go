@@ -63,7 +63,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 		addresses = append(addresses, contractAddress)
 	}
 
-	PayOrderEventSignature := []byte("PayOrderEvent(uint256,address,address,address,uint256,uint256,uint256,uint256)")
+	PayOrderEventSignature := []byte("PayOrderEvent(uint256,address,address,address,uint256,uint256,uint256,uint256,address)")
 	payOrderEvent := crypto.Keccak256Hash(PayOrderEventSignature)
 	//fmt.Println(payOrderEvent.Hex())
 	fmt.Println("heigth:", height)
