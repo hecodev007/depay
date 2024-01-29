@@ -124,6 +124,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				fmt.Println("pay amount:", event.PayAmount.Int64())
 				fmt.Println("SwapAmount amount:", event.SwapAmount.Int64())
 				order.PayedUsdt = toUsdtDbAmount(order.PayedUsdt.Add(decimal.NewFromBigInt(event.PayAmount, 0)))
+				order.RecAddress = event.RecToken.String()
 				order.UpdateTime = time.Now()
 				order.TxId = vLog.TxHash.String()
 				if order.PayedUsdt.GreaterThanOrEqual(order.UsdtAmount) && order.SwapAmount.GreaterThanOrEqual(order.PayedUsdt) {

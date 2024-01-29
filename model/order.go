@@ -25,6 +25,7 @@ type PayOrder struct {
 	SuccessUrl      string          `json:"success_url"`
 	CancelUrl       string          `json:"cancel_url"`
 	TxId            string          `json:"tx_id"`
+	RecAddress      string          `json:"rec_address"`
 	CreateTime      time.Time       `json:"create_time" gorm:"comment:创建时间"`
 	UpdateTime      time.Time       `json:"update_time" gorm:"comment:更新时间"`
 }
