@@ -2,8 +2,6 @@ package contract
 
 import (
 	"context"
-	"depay/config"
-
 	//	"depay/contract"
 	"depay/model"
 	"fmt"
@@ -22,7 +20,7 @@ import (
 	"strings"
 )
 
-func FilOne(host string, conAddr []string) {
+func FilOne(host, chain string, conAddr []string) {
 	//9601359
 	//12508458
 	client, err := ethclient.Dial(host)
@@ -36,14 +34,14 @@ func FilOne(host string, conAddr []string) {
 		return
 	}
 	blockHeight := &model.BlockHeight{}
-	err = model.DB.Model(model.BlockHeight{}).First(blockHeight).Error
+	err = model.DB.Model(model.BlockHeight{}).Where("chain=?", chain).First(blockHeight).Error
 	if err != nil {
 		log.Println(err)
 		return
 	}
 	if blockHeight.Height < int64(height) {
 		for i := blockHeight.Height; i <= int64(height); i++ {
-			FilLog(conAddr, uint64(i), client)
+			FilLog(chain, conAddr, uint64(i), client)
 		}
 	}
 
@@ -55,7 +53,7 @@ func toUsdtDbAmount(amount decimal.Decimal) decimal.Decimal {
 	return amount.Div(decimal.New(1, 18))
 }
 
-func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
+func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Client) {
 
 	addresses := make([]common.Address, 0)
 	for _, addr := range conAddr {
@@ -118,7 +116,7 @@ func FilLog(conAddr []string, height uint64, client *ethclient.Client) {
 				order.TokenAmount = toEthDbAmount(decimal.NewFromBigInt(event.TokenAmount, 0))
 				order.TokenAddress = event.PayToken.String()
 				order.UserAddress = event.User.String()
-				order.Chain = config.GlobalConf.Chain
+				order.Chain = chain
 				order.SwapAmount = toUsdtDbAmount(decimal.NewFromBigInt(event.SwapAmount, 0))
 				fmt.Println("chain:", order.Chain)
 				fmt.Println("pay amount:", event.PayAmount.Int64())

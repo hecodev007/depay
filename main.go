@@ -86,10 +86,16 @@ func main() {
 	go func() {
 		for {
 			select {
+			//bsc: '0x97E1614db4E8f1Db69d08F0eBb252749E2085f15',
+			//	goerli: '0xD28bbAD2290F87CEDe36Db234a39C984F6DD4124',
+			//	maticmum: '0x888599BA44f703699F6E27BF6187633637aF16Cd',
 			case <-time.After(5 * time.Second):
-				contract.FilOne("https://bsc-pokt.nodies.app", []string{"0x97E1614db4E8f1Db69d08F0eBb252749E2085f15"})
+				contract.FilOne("Bsc", "https://bsc-pokt.nodies.app", []string{"0x97E1614db4E8f1Db69d08F0eBb252749E2085f15"})
+				contract.FilOne("PolygonTest", "https://polygon-mumbai-bor.publicnode.com", []string{"0x888599BA44f703699F6E27BF6187633637aF16Cd"})
+				contract.FilOne("Goerli", "https://ethereum-goerli.publicnode.com", []string{"0xD28bbAD2290F87CEDe36Db234a39C984F6DD4124"})
 
 			}
+			//insert block_height(chain,height) values("Goerli",10435515);
 
 		}
 	}()
