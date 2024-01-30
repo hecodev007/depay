@@ -134,6 +134,9 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 				if order.PayedUsdt.GreaterThanOrEqual(order.UsdtAmount) && order.SwapAmount.GreaterThanOrEqual(order.PayedUsdt) {
 					order.Status = model.PAYED
 				}
+				if event.PayToken == event.RecToken && order.PayedUsdt.GreaterThanOrEqual(order.UsdtAmount) {
+					order.Status = model.PAYED
+				}
 				if order.PayedUsdt.GreaterThan(decimal.Zero) && order.UsdtAmount.GreaterThan(order.PayedUsdt) {
 					order.Status = model.PART
 				}
