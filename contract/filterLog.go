@@ -20,6 +20,8 @@ import (
 	"strings"
 )
 
+var finished = true
+
 func FilOne(host, chain string, conAddr []string) {
 	//9601359
 	//12508458
@@ -39,11 +41,15 @@ func FilOne(host, chain string, conAddr []string) {
 		log.Println(err)
 		return
 	}
-	if blockHeight.Height < int64(height) {
+	if blockHeight.Height < int64(height) && finished {
+		finished = false
 		for i := blockHeight.Height; i <= int64(height); i++ {
-			FilLog(chain, conAddr, uint64(i), client)
+			if err := FilLog(chain, conAddr, uint64(i), client); err != nil {
+				i--
+			}
 		}
 	}
+	finished = true
 
 }
 func toEthDbAmount(amount decimal.Decimal) decimal.Decimal {
@@ -53,7 +59,7 @@ func toUsdtDbAmount(amount decimal.Decimal) decimal.Decimal {
 	return amount.Div(decimal.New(1, 18))
 }
 
-func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Client) {
+func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Client) error {
 
 	addresses := make([]common.Address, 0)
 	for _, addr := range conAddr {
@@ -77,14 +83,14 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 
 	logs, err := client.FilterLogs(context.Background(), query)
 	if err != nil {
-		log.Println(err)
-		return
+		//log.Println(err)
+		return err
 	}
 
 	payAbi, err := abi.JSON(strings.NewReader(PayABI))
 	if err != nil {
 		log.Println(err)
-		return
+		return err
 	}
 
 	tx := model.DB.Begin()
@@ -98,7 +104,7 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 				err := payAbi.UnpackIntoInterface(&event, "PayOrderEvent", vLog.Data)
 				if err != nil {
 					log.Println("UnpackIntoInterface PayOrderEvent", err)
-					return
+					return err
 				}
 				fmt.Printf("%+v\n", event)
 
@@ -144,7 +150,7 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 				err := payAbi.UnpackIntoInterface(&event, "SubScribe", vLog.Data)
 				if err != nil {
 					log.Println(err)
-					return
+					return err
 				}
 				sub := &model.Subscribes{
 					MerchantAddress: event.Merchant.String(),
@@ -177,4 +183,5 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 	if err := tx.Commit().Error; err != nil {
 		fmt.Println("commit err!", err)
 	}
+	return nil
 }
