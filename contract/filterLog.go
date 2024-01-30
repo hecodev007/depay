@@ -168,7 +168,7 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 	//	Height: int64(height),
 	//}
 
-	if err := tx.Where("chain=?", chain).Update("height", height).Error; err != nil {
+	if err := tx.Model(&model.BlockHeight{}).Where("chain=?", chain).Update("height", height).Error; err != nil {
 		log.Error("update block height err:", err)
 		fmt.Println("update block height err:", err)
 		tx.Rollback()
