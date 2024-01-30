@@ -102,7 +102,7 @@ func main() {
 			select {
 			case <-time.After(5 * time.Second):
 
-				contract.FilOne("https://polygon-mumbai-bor.publicnode.com", "PolygonTest", []string{"0x888599BA44f703699F6E27BF6187633637aF16Cd"})
+				contract.FilOne("https://api.zan.top/node/v1/polygon/mumbai/public", "PolygonTest", []string{"0x888599BA44f703699F6E27BF6187633637aF16Cd"})
 
 			}
 
