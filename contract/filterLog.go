@@ -83,7 +83,7 @@ func FilLog(chain string, conAddr []string, height uint64, client *ethclient.Cli
 
 	logs, err := client.FilterLogs(context.Background(), query)
 	if err != nil {
-		//log.Println(err)
+		log.Println(err)
 		return err
 	}
 
