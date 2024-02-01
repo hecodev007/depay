@@ -1,2 +1,2 @@
 FROM mysql:latest
-COPY ./mysql/test.sql /docker-entrypoint-initdb.d/test.sql
+COPY ./mysql/depay.sql /docker-entrypoint-initdb.d/test.sql
